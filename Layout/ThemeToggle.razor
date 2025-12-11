@@ -1,0 +1,42 @@
+@inject IJSRuntime JSRuntime
+
+<button @onclick="ToggleTheme"
+        class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-xl transition-all hover:bg-gray-200 focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:hover:bg-slate-600"
+        aria-label="Toggle Dark Mode">
+    @if (_isDark)
+    {
+        <span class="text-yellow-400">🔆</span>
+    }
+    else
+    {
+        <span class="text-slate-600 dark:text-slate-300">🌙</span>
+    }
+</button>
+
+@code {
+    private bool _isDark = false;
+    private bool _initialized = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Initialize theme based on localStorage or system preference
+            await JSRuntime.InvokeVoidAsync("themeUtils.initTheme");
+            
+            // Sync local state with the actual applied theme
+            _isDark = await JSRuntime.InvokeAsync<bool>("themeUtils.isDark");
+            _initialized = true;
+            StateHasChanged();
+        }
+    }
+
+    private async Task ToggleTheme()
+    {
+        if (!_initialized) return;
+
+        // Toggle via JS and update local state
+        await JSRuntime.InvokeVoidAsync("themeUtils.toggleTheme");
+        _isDark = await JSRuntime.InvokeAsync<bool>("themeUtils.isDark");
+    }
+}

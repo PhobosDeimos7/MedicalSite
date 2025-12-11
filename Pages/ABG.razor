@@ -1,0 +1,185 @@
+@page "/abg"
+
+<div class="mx-auto max-w-3xl space-y-8 rounded-xl bg-white p-8 shadow-lg">
+    <div class="border-b border-gray-200 pb-4">
+        <h1 class="text-3xl font-bold text-gray-900">ABG Interpreter</h1>
+        <p class="mt-2 text-sm text-gray-600">Enter arterial blood gas values to determine acid-base status.</p>
+    </div>
+
+    <!-- Input Form -->
+    <div class="grid gap-6 md:grid-cols-3">
+        <!-- pH Input -->
+        <div class="flex flex-col gap-2">
+            <label for="ph" class="text-sm font-medium text-gray-700">pH</label>
+            <input id="ph" type="number" step="0.01" @bind="InputPh" placeholder="7.40"
+                   class="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+            <span class="text-xs text-gray-500">Normal: 7.35 - 7.45</span>
+        </div>
+
+        <!-- PaCO2 Input -->
+        <div class="flex flex-col gap-2">
+            <label for="paco2" class="text-sm font-medium text-gray-700">PaCO₂ (mmHg)</label>
+            <input id="paco2" type="number" step="1" @bind="InputPaCO2" placeholder="40"
+                   class="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+            <span class="text-xs text-gray-500">Normal: 35 - 45</span>
+        </div>
+
+        <!-- HCO3 Input -->
+        <div class="flex flex-col gap-2">
+            <label for="hco3" class="text-sm font-medium text-gray-700">HCO₃ (mEq/L)</label>
+            <input id="hco3" type="number" step="1" @bind="InputHCO3" placeholder="24"
+                   class="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+            <span class="text-xs text-gray-500">Normal: 22 - 26</span>
+        </div>
+    </div>
+
+    <!-- Action Button -->
+    <div class="flex justify-end pt-4">
+        <button @onclick="Analyze"
+                class="rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white shadow-md transition-colors hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+            Analyze Results
+        </button>
+    </div>
+
+    <!-- Results Display -->
+    @if (Result != null)
+    {
+        <div class="mt-8 overflow-hidden rounded-xl border border-gray-200 bg-gray-50 animate-fade-in">
+            <div class="bg-slate-800 px-6 py-4">
+                <h2 class="text-xl font-bold text-white">Diagnosis: @Result.Diagnosis</h2>
+                @if (!string.IsNullOrEmpty(Result.Compensation))
+                {
+                    <p class="mt-1 text-sm text-blue-200">@Result.Compensation</p>
+                }
+            </div>
+
+            <div class="grid divide-y divide-gray-200 md:grid-cols-3 md:divide-x md:divide-y-0">
+                <!-- pH Status -->
+                <div class="p-6 text-center">
+                    <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">pH Status</p>
+                    <p class="@GetStatusColor(Result.PhStatus) mt-2 text-lg font-bold">@Result.PhStatus</p>
+                </div>
+
+                <!-- PaCO2 Status -->
+                <div class="p-6 text-center">
+                    <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">PaCO₂ Status</p>
+                    <p class="@GetStatusColor(Result.PaCo2Status) mt-2 text-lg font-bold">@Result.PaCo2Status</p>
+                </div>
+
+                <!-- HCO3 Status -->
+                <div class="p-6 text-center">
+                    <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">HCO₃ Status</p>
+                    <p class="@GetStatusColor(Result.Hco3Status) mt-2 text-lg font-bold">@Result.Hco3Status</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private double? InputPh;
+    private double? InputPaCO2;
+    private double? InputHCO3;
+    private AbgResult? Result;
+
+    private void Analyze()
+    {
+        if (InputPh == null || InputPaCO2 == null || InputHCO3 == null) return;
+
+        double ph = InputPh.Value;
+        double paco2 = InputPaCO2.Value;
+        double hco3 = InputHCO3.Value;
+
+        Result = new AbgResult();
+
+        // 1. Determine Status of Individual Parameters
+        Result.PhStatus = ph < 7.35 ? "Acidosis" : (ph > 7.45 ? "Alkalosis" : "Normal");
+        
+        // Respiratory: High CO2 is Acidic
+        Result.PaCo2Status = paco2 > 45 ? "Acidosis" : (paco2 < 35 ? "Alkalosis" : "Normal");
+        
+        // Metabolic: Low HCO3 is Acidic
+        Result.Hco3Status = hco3 < 22 ? "Acidosis" : (hco3 > 26 ? "Alkalosis" : "Normal");
+
+        // 2. Determine Diagnosis
+        if (Result.PhStatus == "Normal")
+        {
+            if (Result.PaCo2Status == "Normal" && Result.Hco3Status == "Normal")
+            {
+                Result.Diagnosis = "Normal ABG";
+            }
+            else
+            {
+                // Fully Compensated Logic
+                if (Result.PaCo2Status == "Acidosis" && Result.Hco3Status == "Alkalosis")
+                {
+                    // Look at which side of 7.40 it leans
+                    Result.Diagnosis = ph < 7.40 
+                        ? "Compensated Respiratory Acidosis" 
+                        : "Compensated Metabolic Alkalosis";
+                }
+                else if (Result.PaCo2Status == "Alkalosis" && Result.Hco3Status == "Acidosis")
+                {
+                    Result.Diagnosis = ph > 7.40 
+                        ? "Compensated Respiratory Alkalosis" 
+                        : "Compensated Metabolic Acidosis";
+                }
+                else
+                {
+                    Result.Diagnosis = "Mixed Disorder (Normal pH)";
+                }
+            }
+        }
+        else if (Result.PhStatus == "Acidosis")
+        {
+            if (Result.PaCo2Status == "Acidosis" && Result.Hco3Status == "Acidosis")
+                Result.Diagnosis = "Mixed Respiratory & Metabolic Acidosis";
+            else if (Result.PaCo2Status == "Acidosis")
+            {
+                Result.Diagnosis = "Respiratory Acidosis";
+                Result.Compensation = Result.Hco3Status == "Alkalosis" ? "Partially Compensated" : "Uncompensated";
+            }
+            else if (Result.Hco3Status == "Acidosis")
+            {
+                Result.Diagnosis = "Metabolic Acidosis";
+                Result.Compensation = Result.PaCo2Status == "Alkalosis" ? "Partially Compensated" : "Uncompensated";
+            }
+            else
+                Result.Diagnosis = "Inconclusive / Mixed";
+        }
+        else // Alkalosis
+        {
+            if (Result.PaCo2Status == "Alkalosis" && Result.Hco3Status == "Alkalosis")
+                Result.Diagnosis = "Mixed Respiratory & Metabolic Alkalosis";
+            else if (Result.PaCo2Status == "Alkalosis")
+            {
+                Result.Diagnosis = "Respiratory Alkalosis";
+                Result.Compensation = Result.Hco3Status == "Acidosis" ? "Partially Compensated" : "Uncompensated";
+            }
+            else if (Result.Hco3Status == "Alkalosis")
+            {
+                Result.Diagnosis = "Metabolic Alkalosis";
+                Result.Compensation = Result.PaCo2Status == "Acidosis" ? "Partially Compensated" : "Uncompensated";
+            }
+            else
+                Result.Diagnosis = "Inconclusive / Mixed";
+        }
+    }
+
+    private string GetStatusColor(string status) => status switch
+    {
+        "Acidosis" => "text-red-600",
+        "Alkalosis" => "text-indigo-600",
+        "Normal" => "text-green-600",
+        _ => "text-gray-600"
+    };
+
+    public class AbgResult
+    {
+        public string PhStatus { get; set; } = "";
+        public string PaCo2Status { get; set; } = "";
+        public string Hco3Status { get; set; } = "";
+        public string Diagnosis { get; set; } = "";
+        public string Compensation { get; set; } = "";
+    }
+}

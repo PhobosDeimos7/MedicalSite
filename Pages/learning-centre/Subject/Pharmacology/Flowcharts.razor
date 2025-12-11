@@ -1,0 +1,229 @@
+@page "/learning-centre/pharmacology/flowcharts"
+@inject IJSRuntime JSRuntime
+@using System.Text.Json
+
+<div class="flex h-[calc(100vh-8rem)] flex-col gap-4 p-4">
+    <!-- Toolbar -->
+    <div class="flex items-center justify-between rounded-xl border border-gray-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <div class="flex gap-4">
+            <h1 class="text-xl font-bold text-gray-900 dark:text-white">Pharmacology Flows</h1>
+            <div class="h-8 w-px bg-gray-300 dark:bg-slate-600"></div>
+            <button @onclick="AddNode" class="rounded-lg bg-emerald-100 px-4 py-1 text-sm font-medium text-emerald-700 hover:bg-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300">
+                + Add Node
+            </button>
+            <button @onclick="ClearAll" class="rounded-lg bg-red-100 px-4 py-1 text-sm font-medium text-red-700 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-300">
+                Clear All
+            </button>
+        </div>
+        <div class="text-sm text-gray-500">
+            @if (SelectedNodeId != null)
+            {
+                <span class="text-emerald-600">Select another node to connect</span>
+            }
+            else
+            {
+                <span>Click nodes to connect • Drag to move</span>
+            }
+        </div>
+    </div>
+
+    <!-- Canvas Area -->
+    <div class="relative flex-1 overflow-hidden rounded-xl border border-gray-200 bg-slate-50 shadow-inner dark:border-slate-700 dark:bg-slate-900"
+         @onmousemove="OnMouseMove"
+         @onmouseup="OnMouseUp">
+        
+        <!-- SVG Layer for Connections -->
+        <svg class="pointer-events-none absolute inset-0 h-full w-full">
+            @foreach (var conn in Connections)
+            {
+                var from = Nodes.FirstOrDefault(n => n.Id == conn.FromId);
+                var to = Nodes.FirstOrDefault(n => n.Id == conn.ToId);
+                if (from != null && to != null)
+                {
+                    <line x1="@(from.X + 64)" y1="@(from.Y + 24)" 
+                          x2="@(to.X + 64)" y2="@(to.Y + 24)" 
+                          stroke="#94a3b8" stroke-width="2" marker-end="url(#arrowhead_pharma)" />
+                }
+            }
+            <defs>
+                <marker id="arrowhead_pharma" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#94a3b8" />
+                </marker>
+            </defs>
+        </svg>
+
+        <!-- Nodes Layer -->
+        @foreach (var node in Nodes)
+        {
+            <div class="absolute flex w-32 cursor-move flex-col items-center justify-center rounded-lg border bg-blue px-2 py-2 shadow-md transition-shadow hover:shadow-lg dark:border-slate-600 dark:bg-slate-800"
+                 style="left: @(node.X)px; top: @(node.Y)px; z-index: 10; border-color: @(SelectedNodeId == node.Id ? "#10b981" : "#e2e8f0")"
+                 @onmousedown="@(e => OnMouseDown(e, node))"
+                 @onclick="@(() => OnNodeClick(node))"
+                 @onclick:stopPropagation="true">
+                
+                <input value="@node.Text" @onchange="@(e => UpdateNodeText(node, e.Value?.ToString()))"
+                       class="w-full bg-transparent text-center text-xs font-medium text-gray-800 focus:outline-none dark:text-gray-200" />
+                
+                <button @onclick="@(() => DeleteNode(node))" class="absolute -right-2 -top-2 hidden h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white hover:bg-red-600 group-hover:flex">
+                    ×
+                </button>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    if (!window.flowchartStorage) {
+        window.flowchartStorage = {
+            save: (key, data) => localStorage.setItem(key, data),
+            load: (key) => localStorage.getItem(key)
+        };
+    }
+</script>
+
+@code {
+    private const string StorageKey = "pharma_flowchart";
+    
+    private List<Node> Nodes = new();
+    private List<Connection> Connections = new();
+    
+    private Guid? SelectedNodeId;
+    private bool IsDragging;
+    private Node? DraggingNode;
+    private double DragOffsetX;
+    private double DragOffsetY;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private void AddNode()
+    {
+        Nodes.Add(new Node 
+        { 
+            Id = Guid.NewGuid(), 
+            X = 50 + (Nodes.Count * 20), 
+            Y = 50 + (Nodes.Count * 20), 
+            Text = "Drug A" 
+        });
+        SaveData();
+    }
+
+    private void DeleteNode(Node node)
+    {
+        Nodes.Remove(node);
+        Connections.RemoveAll(c => c.FromId == node.Id || c.ToId == node.Id);
+        if (SelectedNodeId == node.Id) SelectedNodeId = null;
+        SaveData();
+    }
+
+    private void ClearAll()
+    {
+        Nodes.Clear();
+        Connections.Clear();
+        SelectedNodeId = null;
+        SaveData();
+    }
+
+    private void OnNodeClick(Node node)
+    {
+        if (IsDragging) return;
+
+        if (SelectedNodeId == null)
+        {
+            SelectedNodeId = node.Id;
+        }
+        else if (SelectedNodeId != node.Id)
+        {
+            if (!Connections.Any(c => c.FromId == SelectedNodeId && c.ToId == node.Id))
+            {
+                Connections.Add(new Connection { FromId = SelectedNodeId.Value, ToId = node.Id });
+                SaveData();
+            }
+            SelectedNodeId = null;
+        }
+        else
+        {
+            SelectedNodeId = null;
+        }
+    }
+
+    private void UpdateNodeText(Node node, string? text)
+    {
+        node.Text = text ?? "";
+        SaveData();
+    }
+
+    private void OnMouseDown(MouseEventArgs e, Node node)
+    {
+        IsDragging = true;
+        DraggingNode = node;
+        DragOffsetX = e.ClientX - node.X;
+        DragOffsetY = e.ClientY - node.Y;
+    }
+
+    private void OnMouseMove(MouseEventArgs e)
+    {
+        if (IsDragging && DraggingNode != null)
+        {
+            DraggingNode.X = e.ClientX - DragOffsetX;
+            DraggingNode.Y = e.ClientY - DragOffsetY;
+        }
+    }
+
+    private void OnMouseUp(MouseEventArgs e)
+    {
+        if (IsDragging)
+        {
+            IsDragging = false;
+            DraggingNode = null;
+            SaveData();
+        }
+    }
+
+    private async void SaveData()
+    {
+        var data = new FlowData { Nodes = Nodes, Connections = Connections };
+        var json = JsonSerializer.Serialize(data);
+        await JSRuntime.InvokeVoidAsync("flowchartStorage.save", StorageKey, json);
+    }
+
+    private async Task LoadData()
+    {
+        try
+        {
+            var json = await JSRuntime.InvokeAsync<string>("flowchartStorage.load", StorageKey);
+            if (!string.IsNullOrEmpty(json))
+            {
+                var data = JsonSerializer.Deserialize<FlowData>(json);
+                if (data != null)
+                {
+                    Nodes = data.Nodes;
+                    Connections = data.Connections;
+                }
+            }
+        }
+        catch { }
+    }
+
+    public class Node
+    {
+        public Guid Id { get; set; }
+        public double X { get; set; }
+        public double Y { get; set; }
+        public string Text { get; set; } = "";
+    }
+
+    public class Connection
+    {
+        public Guid FromId { get; set; }
+        public Guid ToId { get; set; }
+    }
+
+    public class FlowData
+    {
+        public List<Node> Nodes { get; set; } = new();
+        public List<Connection> Connections { get; set; } = new();
+    }
+}

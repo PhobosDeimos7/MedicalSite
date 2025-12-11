@@ -1,0 +1,63 @@
+@page "/learning-centre/pharmacology"
+
+<div class="mx-auto max-w-5xl space-y-10 animate-fade-in">
+    <!-- Hero Section -->
+    <div class="rounded-2xl bg-blue-50 px-8 py-12 text-center shadow-sm dark:bg-blue-900/20">
+        <div class="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-blue-100 text-5xl shadow-inner dark:bg-blue-800">
+            💊
+        </div>
+        <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
+            Pharmacology
+        </h1>
+        <p class="mt-4 text-lg text-gray-600 dark:text-blue-100/80">
+            Master drug classes, mechanisms of action, pharmacokinetics, and therapeutic applications.
+        </p>
+    </div>
+
+    <!-- Resource Grid -->
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+        
+        <!-- Flashcards Card -->
+        <NavLink href="learning-centre/pharmacology/flashcards" class="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl dark:border-slate-700 dark:bg-slate-800">
+            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-8 text-white">
+                <div class="mb-2 text-4xl">⚡</div>
+                <h2 class="text-2xl font-bold">Flashcards</h2>
+            </div>
+            <div class="flex flex-1 flex-col p-6">
+                <p class="flex-1 text-gray-600 dark:text-gray-300">
+                    Drill key concepts including drug names, side effects, contraindications, and dosage calculations.
+                </p>
+                <div class="mt-6 flex items-center font-semibold text-blue-600 dark:text-blue-400 group-hover:underline">
+                    Start Practice <span class="ml-2">→</span>
+                </div>
+            </div>
+        </NavLink>
+
+        <!-- Flowcharts Card -->
+        <NavLink href="learning-centre/pharmacology/flowcharts" class="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl dark:border-slate-700 dark:bg-slate-800">
+            <div class="bg-gradient-to-r from-cyan-500 to-teal-500 px-6 py-8 text-white">
+                <div class="mb-2 text-4xl">🔀</div>
+                <h2 class="text-2xl font-bold">Flowcharts</h2>
+            </div>
+            <div class="flex flex-1 flex-col p-6">
+                <p class="flex-1 text-gray-600 dark:text-gray-300">
+                    Visualise metabolic pathways, drug-receptor interactions, and treatment algorithms for chronic conditions.
+                </p>
+                <div class="mt-6 flex items-center font-semibold text-cyan-600 dark:text-cyan-400 group-hover:underline">
+                    View Diagrams <span class="ml-2">→</span>
+                </div>
+            </div>
+        </NavLink>
+
+    </div>
+    
+    <!-- Back Navigation -->
+    <div class="pt-4 text-center">
+        <NavLink href="learning-centre" class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+            ← Back to Learning Centre
+        </NavLink>
+    </div>
+</div>
+
+@code {
+}
