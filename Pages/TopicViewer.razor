@@ -1,0 +1,131 @@
+@page "/learning/{SubjectId}/{TopicId}/{CurrentView?}"
+@page "/learning-centre/{SubjectId}/flowcharts/{TopicId}"
+@using MedicalSite.Features.Learning.Models
+@using MedicalSite.Features.Learning.Services
+@using MedicalSite.Features.Learning.Components
+@inject LearningService LearningService
+@inject NavigationManager Nav
+
+<div class="max-w-4xl mx-auto pb-12">
+    @if (CurrentTopic == null)
+    {
+        <div class="text-center py-12">Loading topic data...</div>
+    }
+    else
+    {
+        <!-- Breadcrumb & Title -->
+        <div class="mb-6 border-b border-[var(--app-border)] pb-4">
+            <div class="flex items-center gap-2 text-sm text-slate-500 mb-2">
+                <a href="learning-centre" class="hover:text-blue-600">Centre</a>
+                <span>/</span>
+                <span class="capitalize">@SubjectId</span>
+                <span>/</span>
+                <span class="capitalize">@NormalizedView</span>
+            </div>
+            <h1 class="text-3xl font-bold text-[var(--app-text)]">@CurrentTopic.Title</h1>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex space-x-2 mb-8 border-b border-[var(--app-border)] overflow-x-auto">
+            <button @onclick='() => Navigate("overview")' class="@GetTabClass("overview")">📖 Overview</button>
+            <button @onclick='() => Navigate("flashcards")' class="@GetTabClass("flashcards")">⚡ Flashcards</button>
+            <button @onclick='() => Navigate("flowcharts")' class="@GetTabClass("flowcharts")">🌳 Flowcharts</button>
+        </div>
+
+        <!-- Content Area -->
+        <AnimateIn Delay="0">
+            @if (NormalizedView == "overview")
+            {
+                <div class="space-y-8 animate-fade-in">
+                    <!-- Summary -->
+                    <section class="bg-[var(--app-surface)] p-8 rounded-2xl border border-[var(--app-border)] shadow-sm">
+                        <h2 class="text-xl font-bold text-[var(--app-text)] mb-4 flex items-center gap-2">
+                            <span class="text-blue-600">📖</span> High-Yield Summary
+                        </h2>
+                        <p class="text-lg leading-relaxed text-slate-600 dark:text-slate-300">
+                            @CurrentTopic.Summary
+                        </p>
+                    </section>
+                    
+                    <!-- Clinical Relevance & Pearls (Grid) -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <section class="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-700/50 rounded-2xl p-6">
+                            <h3 class="text-lg font-bold text-amber-800 dark:text-amber-400 mb-4 flex items-center gap-2">
+                                <span>⭐</span> Exam Pearls
+                            </h3>
+                            <ul class="space-y-3">
+                                @foreach (var pearl in CurrentTopic.ExamPearls)
+                                {
+                                    <li class="flex items-start gap-3 text-amber-900 dark:text-amber-100/90">
+                                        <svg class="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                                        <span>@pearl</span>
+                                    </li>
+                                }
+                            </ul>
+                        </section>
+
+                        <section class="bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-700/50 rounded-2xl p-6">
+                            <h3 class="text-lg font-bold text-red-800 dark:text-red-400 mb-4 flex items-center gap-2">
+                                <span>🏥</span> Clinical Relevance
+                            </h3>
+                            <p class="text-red-900 dark:text-red-100/90 leading-relaxed text-sm">
+                                @CurrentTopic.ClinicalRelevance
+                            </p>
+                        </section>
+                    </div>
+                </div>
+            }
+            else if (NormalizedView == "flashcards")
+            {
+                <FlashcardDeck Cards="CurrentTopic.Flashcards" />
+            }
+            else if (NormalizedView == "flowcharts")
+            {
+                <div class="overflow-x-auto p-8 bg-[var(--app-surface)] rounded-2xl border border-[var(--app-border)]">
+                     <FlowchartTree Node="CurrentTopic.RootFlowchartNode" />
+                </div>
+            }
+        </AnimateIn>
+    }
+</div>
+
+@code {
+    [Parameter] public string SubjectId { get; set; } = "";
+    [Parameter] public string TopicId { get; set; } = "";
+    [Parameter] public string? CurrentView { get; set; }
+
+    private Topic? CurrentTopic;
+    private string NormalizedView => (CurrentView ?? "overview").ToLower();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        // 1. Data Loading Strategy
+        // We fetch data based on the URL parameters (SubjectId, TopicId).
+        // This makes the routing "Data-Driven" - adding a new topic in JSON makes it work instantly.
+        CurrentTopic = await LearningService.GetTopicAsync(SubjectId, TopicId);
+
+        // 2. Logic to handle the specific "Flowcharts" route
+        // If the user visits "/learning-centre/.../flowcharts/...", we force the view.
+        if (Nav.Uri.Contains("/flowcharts/") && string.IsNullOrEmpty(CurrentView))
+        {
+            CurrentView = "flowcharts";
+        }
+    }
+
+    private void Navigate(string view) 
+    {
+        // Maintains the "pretty" URL structure if they are already deep-linked, 
+        // or falls back to standard routing.
+        if (Nav.Uri.Contains("/flowcharts/") && view == "flowcharts") return;
+        
+        Nav.NavigateTo($"/learning/{SubjectId}/{TopicId}/{view}");
+    }
+
+    private string GetTabClass(string viewName)
+    {
+        bool isActive = NormalizedView == viewName;
+        return isActive 
+            ? "px-4 py-2 border-b-2 border-blue-500 text-blue-600 font-medium" 
+            : "px-4 py-2 text-slate-500 hover:text-slate-700 font-medium";
+    }
+}

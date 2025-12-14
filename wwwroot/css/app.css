@@ -195,3 +195,55 @@ code {
 .card-interactive:hover .group-hover\:text-blue-600 {
     color: #2563eb;
 }
+/* Flowchart Animation */
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-slide-down {
+    animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+/* =========================================
+   PROFESSIONAL FLOWCHART ANIMATIONS
+   ========================================= */
+
+/* 1. Smooth Reveal (Entrance) 
+   Combines a slight slide, fade, and scale-up for a 'growing' effect.
+*/
+@keyframes smoothReveal {
+    0% { 
+        opacity: 0; 
+        transform: translateY(-10px) scale(0.98); 
+    }
+    100% { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+    }
+}
+
+.animate-tree-enter {
+    animation: smoothReveal 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+    transform-origin: top center; /* Ensures it grows from the parent */
+}
+
+/* 2. Connector Line Animation 
+   delays the drawing of lines slightly so the cards appear first
+*/
+.animate-line {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* 3. Card Micro-interactions 
+   Overrides default transitions for a 'weighty' feel
+*/
+.node-card-transition {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+                box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.2s ease;
+}

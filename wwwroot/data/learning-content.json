@@ -1,0 +1,217 @@
+{
+  "subjects": [
+    {
+      "id": "microbiology",
+      "name": "Microbiology",
+      "description": "Bacteriology, Virology, and Mycology.",
+      "topics": [
+        {
+          "id": "staph",
+          "title": "Staphylococcus",
+          "summary": "Staphylococcus is a genus of Gram-positive bacteria. Under the microscope, they appear spherical (cocci) and form in grape-like clusters.",
+          "clinicalRelevance": "S. aureus is a major cause of skin infections, pneumonia, and sepsis.",
+          "examPearls": [
+            "Staph is Catalase Positive.",
+            "S. aureus is Coagulase Positive."
+          ],
+          "definitions": [
+            { "term": "Catalase", "meaning": "Enzyme that converts H2O2 to bubbles." }
+          ],
+          "flashcards": [
+            { "front": "Gram Staining appearance?", "back": "Gram-positive cocci in clusters" },
+            { "front": "Catalase test result?", "back": "Positive" }
+          ],
+          "rootFlowchartNode": {
+            "title": "Gram Positive Cocci",
+            "type": "Start",
+            "children": [
+              {
+                "title": "Catalase Positive",
+                "children": [
+                  { 
+                    "title": "Staphylococcus",
+                    "children": [
+                        { "title": "Coagulase + (S. aureus)", "type": "Drug" },
+                        { "title": "Coagulase - (CONS)", "type": "Standard" }
+                    ]
+                  }
+                ]
+              },
+              { "title": "Catalase Negative (Strep)", "type": "Standard" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "pathology",
+      "name": "Pathology",
+      "description": "General and systemic pathology.",
+      "topics": [
+        {
+          "id": "inflammation",
+          "title": "Acute Inflammation",
+          "summary": "Rapid host response to deliver leukocytes and plasma proteins to sites of injury.",
+          "clinicalRelevance": "Uncontrolled inflammation leads to tissue damage.",
+          "examPearls": ["Neutrophils arrive first.", "Histamine causes vasodilation."],
+          "definitions": [],
+          "flashcards": [],
+          "rootFlowchartNode": { 
+              "title": "Injury", 
+              "type": "Start", 
+              "children": [
+                  { "title": "Vascular Changes", "type": "Standard" },
+                  { "title": "Cellular Events", "type": "Standard" }
+              ] 
+          }
+        }
+      ]
+    },
+    {
+      "id": "pharmacology",
+      "name": "Pharmacology",
+      "description": "Drug mechanisms and classifications.",
+      "topics": [
+        {
+          "id": "beta-blockers",
+          "title": "Beta Blockers",
+          "summary": "Beta blockers bind to beta receptors and block norepinephrine/epinephrine.",
+          "clinicalRelevance": "First-line for angina and heart failure.",
+          "examPearls": ["B1 Selective: A-M", "Non-selective: N-Z"],
+          "definitions": [],
+          "flashcards": [],
+          "rootFlowchartNode": {
+             "title": "Beta Blockers",
+             "type": "Start",
+             "children": [
+               { 
+                 "title": "Selective (B1)", 
+                 "children": [ { "title": "Metoprolol", "type": "Drug" }, { "title": "Atenolol", "type": "Drug" } ] 
+               },
+               { 
+                 "title": "Non-Selective", 
+                 "children": [ { "title": "Propranolol", "type": "Drug" } ] 
+               }
+             ]
+          }
+        },
+        {
+          "id": "ans",
+          "title": "Autonomic Nervous System",
+          "summary": "The ANS regulates involuntary physiologic processes including heart rate, blood pressure, respiration, digestion, and sexual arousal.",
+          "clinicalRelevance": "Dysregulation of the ANS is implicated in many disease states. Pharmacologic manipulation of the ANS is the basis for treating hypertension, asthma, and heart failure.",
+          "examPearls": [
+            "Sympathetic: Fight or Flight (Thoracolumbar output).",
+            "Parasympathetic: Rest and Digest (Craniosacral output).",
+            "Adrenal medulla releases Epinephrine (80%) and Norepinephrine (20%)."
+          ],
+          "definitions": [],
+          "flashcards": [],
+          "rootFlowchartNode": {
+             "id": "ans-root",
+             "title": "Autonomic Nervous System",
+             "type": "System",
+             "description": "General Control System",
+             "children": [
+                {
+                  "id": "symp",
+                  "title": "Sympathetic",
+                  "type": "System",
+                  "description": "Fight or Flight",
+                  "children": [
+                    {
+                      "id": "adrenergic-receptors",
+                      "title": "Adrenergic Receptors",
+                      "type": "Receptor",
+                      "children": [
+                        {
+                          "id": "alpha",
+                          "title": "Alpha (α)",
+                          "type": "Receptor",
+                          "children": [
+                            {
+                              "id": "a1",
+                              "title": "α1",
+                              "description": "Vasoconstriction",
+                              "type": "Action",
+                              "children": [
+                                { "id": "phenylephrine", "title": "Phenylephrine", "type": "Drug" }
+                              ]
+                            },
+                            {
+                              "id": "a2",
+                              "title": "α2",
+                              "description": "Inhibits NE release",
+                              "type": "Action",
+                              "children": [
+                                { "id": "clonidine", "title": "Clonidine", "type": "Drug" }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "beta",
+                          "title": "Beta (β)",
+                          "type": "Receptor",
+                          "children": [
+                            {
+                              "id": "b1",
+                              "title": "β1",
+                              "description": "↑ Heart Rate",
+                              "type": "Action",
+                              "children": [
+                                { "id": "dobutamine", "title": "Dobutamine", "type": "Drug" }
+                              ]
+                            },
+                            {
+                              "id": "b2",
+                              "title": "β2",
+                              "description": "Bronchodilation",
+                              "type": "Action",
+                              "children": [
+                                { "id": "albuterol", "title": "Albuterol", "type": "Drug" }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "parasymp",
+                  "title": "Parasympathetic",
+                  "type": "System",
+                  "description": "Rest and Digest",
+                  "children": [
+                    {
+                      "id": "cholinergic",
+                      "title": "Cholinergic Receptors",
+                      "type": "Receptor",
+                      "children": [
+                        {
+                          "id": "muscarinic",
+                          "title": "Muscarinic (M)",
+                          "type": "Receptor",
+                          "children": [
+                            { "id": "bethanechol", "title": "Bethanechol", "type": "Drug" },
+                            { "id": "pilocarpine", "title": "Pilocarpine", "type": "Drug" }
+                          ]
+                        },
+                        {
+                          "id": "nicotinic",
+                          "title": "Nicotinic (N)",
+                          "type": "Receptor",
+                          "description": "Neuromuscular Junction"
+                        }
+                      ]
+                    }
+                  ]
+                }
+             ]
+          }
+        }
+      ]
+    }
+  ]
+}
