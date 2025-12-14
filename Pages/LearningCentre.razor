@@ -2,9 +2,9 @@
 
 <div class="mx-auto max-w-6xl space-y-8">
     <!-- Header -->
-    <div class="border-b border-gray-200 pb-6">
-        <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">Learning Centre</h1>
-        <p class="mt-4 max-w-2xl text-lg text-gray-500">
+    <div class="border-b border-[var(--app-border)] pb-6">
+        <h1 class="text-3xl font-extrabold tracking-tight text-[var(--app-text)]">Learning Centre</h1>
+        <p class="mt-4 max-w-2xl text-lg text-gray-500 dark:text-gray-400">
             Explore our comprehensive medical study guides and reference materials. Select a category below to begin.
         </p>
     </div>
@@ -13,23 +13,24 @@
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         @foreach (var subject in Subjects)
         {
-            <NavLink href="@subject.Url" class="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+            <!-- Uses app-surface variable for card background -->
+            <NavLink href="@subject.Url" class="group relative flex flex-col overflow-hidden rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface)] shadow-sm transition-all hover:-translate-y-1 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900">
                 
-                <!-- Icon Header -->
+                <!-- Icon Header: Added dark mode color logic to the model or inline -->
                 <div class="@($"flex h-32 items-center justify-center {subject.BgColor}")">
                     <span class="text-6xl filter drop-shadow-sm">@subject.Icon</span>
                 </div>
 
                 <!-- Content -->
                 <div class="flex flex-1 flex-col p-6">
-                    <h3 class="text-xl font-bold text-gray-900 group-hover:text-blue-600">
+                    <h3 class="text-xl font-bold text-[var(--app-text)] group-hover:text-blue-600">
                         @subject.Title
                     </h3>
-                    <p class="mt-3 flex-1 text-sm leading-relaxed text-gray-500">
+                    <p class="mt-3 flex-1 text-sm leading-relaxed text-gray-500 dark:text-gray-400">
                         @subject.Description
                     </p>
                     
-                    <div class="mt-6 flex items-center text-sm font-medium text-blue-600">
+                    <div class="mt-6 flex items-center text-sm font-medium text-blue-600 dark:text-blue-400">
                         <span>View Resources</span>
                         <svg class="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -49,7 +50,7 @@
             Title = "Microbiology", 
             Description = "Study of microorganisms including bacteria, viruses, fungi, and parasites. Covers identification and treatment.",
             Icon = "🦠",
-            BgColor = "bg-emerald-100",
+            BgColor = "bg-emerald-100 dark:bg-emerald-900", // Updated for Dark Mode
             Url = "learning-centre/microbiology"
         },
         new SubjectCard 
@@ -57,7 +58,7 @@
             Title = "Pharmacology", 
             Description = "Detailed drug interaction data, mechanisms of action, pharmacokinetics, and therapeutic applications.",
             Icon = "💊",
-            BgColor = "bg-blue-100",
+            BgColor = "bg-blue-100 dark:bg-blue-900", // Updated for Dark Mode
             Url = "learning-centre/pharmacology"
         },
         new SubjectCard 
@@ -65,7 +66,7 @@
             Title = "Pathology", 
             Description = "Understand the causes and effects of disease. Includes gross pathology, histopathology, and cytopathology.",
             Icon = "🔬",
-            BgColor = "bg-rose-100",
+            BgColor = "bg-rose-100 dark:bg-rose-900", // Updated for Dark Mode
             Url = "learning-centre/pathology"
         }
     };

@@ -1,29 +1,43 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="min-h-screen bg-gray-50">
+<!-- 
+    1. Removed "bg-gray-50". 
+    2. Added "bg-[var(--app-bg)]" and "text-[var(--app-text)]".
+    3. Added "transition-colors" so it animates smoothly.
+-->
+<div class="min-h-screen bg-[var(--app-bg)] text-[var(--app-text)] transition-colors duration-300">
+    
     <!-- Fixed Left Sidebar -->
-    <aside class="fixed inset-y-0 left-0 z-30 w-64 bg-slate-800 text-white">
+    <!-- Changed bg-slate-800 to bg-[var(--app-surface)] so it changes color with the theme -->
+    <aside class="fixed inset-y-0 left-0 z-30 w-64 bg-[var(--app-surface)] border-r border-[var(--app-border)] transition-colors duration-300">
         <NavMenu />
     </aside>
-    <!-- Main Content Wrapper (offset by sidebar width) -->
+
+    <!-- Main Content Wrapper -->
     <div class="ml-64 flex min-h-screen flex-col">
+        
         <!-- Fixed Top Header -->
-        <header class="fixed top-0 right-0 left-64 z-20 flex h-16 items-center justify-between border-b border-gray-200 bg-white px-6 shadow-sm">
-            <span class="text-lg font-semibold text-gray-700">App Dashboard</span>
+        <!-- 
+           1. Changed "bg-white" to "bg-[var(--app-surface)]".
+           2. Changed "border-gray-200" to "border-[var(--app-border)]".
+           3. Changed text colors to inherit or use variables.
+        -->
+        <header class="fixed top-0 right-0 left-64 z-20 flex h-16 items-center justify-between border-b border-[var(--app-border)] bg-[var(--app-surface)] px-6 shadow-sm transition-colors duration-300">
+            <span class="text-lg font-semibold">App Dashboard</span>
+            
             <ThemeToggle />
+            
             <div class="flex items-center gap-4">
-                <button class="rounded-full bg-gray-100 p-2 text-gray-600 hover:bg-gray-200">
+                <button class="rounded-full p-2 hover:bg-[var(--btn-hover)] transition-colors">
                     🔔
                 </button>
                 <div class="h-8 w-8 rounded-full bg-blue-500"></div>
             </div>
         </header>
-        <!-- Main Content Area (offset by header height) -->
+
+        <!-- Main Content Area -->
         <main class="mt-16 flex-1 p-8">
             @Body
         </main>
     </div>
 </div>
-
-@code {
-}

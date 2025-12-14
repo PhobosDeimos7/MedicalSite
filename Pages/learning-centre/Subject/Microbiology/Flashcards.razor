@@ -4,20 +4,13 @@
 
 <div class="mx-auto max-w-3xl space-y-8 p-4">
     <!-- Header -->
-    <div class="flex items-center justify-between border-b border-gray-200 pb-4 dark:border-slate-700">
+    <div class="flex items-center justify-between border-b border-[var(--app-border)] pb-4">
         <div>
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-emerald-400">Microbiology Flashcards</h1>
+            <h1 class="text-3xl font-bold text-[var(--app-text)]">Microbiology Flashcards</h1>
             <p class="text-sm text-gray-500 dark:text-gray-400">Master pathogens and treatments</p>
         </div>
         <div class="rounded-full bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">
-            @if (Cards.Any())
-            {
-                <span>@(CurrentIndex + 1) / @Cards.Count</span>
-            }
-            else
-            {
-                <span>0 / 0</span>
-            }
+            @if (Cards.Any()) { <span>@(CurrentIndex + 1) / @Cards.Count</span> } else { <span>0 / 0</span> }
         </div>
     </div>
 
@@ -28,18 +21,12 @@
             <div class="cursor-pointer relative h-full w-full transition-transform duration-500"
                  style="@(IsFlipped ? "transform: rotateY(180deg); transform-style: preserve-3d;" : "transform-style: preserve-3d;")"
                  @onclick="FlipCard">
-                
-                <!-- Front -->
-                <div class="absolute inset-0 flex flex-col items-center justify-center rounded-2xl border border-gray-200 bg-white p-8 text-center shadow-lg dark:border-slate-700 dark:bg-slate-800"
-                     style="backface-visibility: hidden; -webkit-backface-visibility: hidden;">
+                <div class="absolute inset-0 flex flex-col items-center justify-center rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface)] p-8 text-center shadow-lg" style="backface-visibility: hidden;">
                     <span class="mb-4 text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Question</span>
-                    <p class="text-2xl font-medium text-gray-800 dark:text-gray-100">@Cards[CurrentIndex].Front</p>
+                    <p class="text-2xl font-medium text-[var(--app-text)]">@Cards[CurrentIndex].Front</p>
                     <p class="absolute bottom-4 text-xs text-gray-400">Click to flip</p>
                 </div>
-
-                <!-- Back -->
-                <div class="absolute inset-0 flex flex-col items-center justify-center rounded-2xl border border-emerald-200 bg-emerald-50 p-8 text-center shadow-lg dark:border-emerald-900 dark:bg-emerald-950"
-                     style="transform: rotateY(180deg); backface-visibility: hidden; -webkit-backface-visibility: hidden;">
+                <div class="absolute inset-0 flex flex-col items-center justify-center rounded-2xl border border-emerald-200 bg-emerald-50 p-8 text-center shadow-lg dark:border-emerald-900 dark:bg-emerald-950" style="transform: rotateY(180deg); backface-visibility: hidden;">
                     <span class="mb-4 text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Answer</span>
                     <p class="text-xl text-gray-800 dark:text-gray-100">@Cards[CurrentIndex].Back</p>
                 </div>
@@ -47,54 +34,39 @@
         }
         else
         {
-            <!-- Empty State -->
             <div class="flex h-full w-full flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-300 bg-gray-50 text-center dark:border-slate-700 dark:bg-slate-800/50">
                 <div class="text-4xl">🦠</div>
                 <h3 class="mt-2 text-lg font-medium text-gray-900 dark:text-white">No flashcards yet</h3>
-                <p class="text-gray-500">Add a new card below to start studying.</p>
+                <p class="text-gray-500 dark:text-gray-400">Add a new card below.</p>
             </div>
         }
     </div>
 
-    <!-- Navigation Controls -->
+    <!-- Controls -->
     @if (Cards.Count > 0)
     {
         <div class="flex justify-center gap-4">
-            <button @onclick="PrevCard" disabled="@(Cards.Count <= 1)"
-                    class="rounded-lg bg-gray-200 px-4 py-2 font-medium text-gray-700 hover:bg-gray-300 disabled:opacity-50 dark:bg-slate-700 dark:text-white dark:hover:bg-slate-600">
-                ← Prev
-            </button>
-            <button @onclick="DeleteCard"
-                    class="rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-100 dark:border-red-900 dark:bg-red-900/20 dark:text-red-400">
-                Delete Card
-            </button>
-            <button @onclick="NextCard" disabled="@(Cards.Count <= 1)"
-                    class="rounded-lg bg-gray-200 px-4 py-2 font-medium text-gray-700 hover:bg-gray-300 disabled:opacity-50 dark:bg-slate-700 dark:text-white dark:hover:bg-slate-600">
-                Next →
-            </button>
+            <button @onclick="PrevCard" disabled="@(Cards.Count <= 1)" class="rounded-lg bg-gray-200 px-4 py-2 font-medium text-gray-700 hover:bg-gray-300 disabled:opacity-50 dark:bg-slate-700 dark:text-white">← Prev</button>
+            <button @onclick="DeleteCard" class="rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-100 dark:border-red-900 dark:bg-red-900/20 dark:text-red-400">Delete</button>
+            <button @onclick="NextCard" disabled="@(Cards.Count <= 1)" class="rounded-lg bg-gray-200 px-4 py-2 font-medium text-gray-700 hover:bg-gray-300 disabled:opacity-50 dark:bg-slate-700 dark:text-white">Next →</button>
         </div>
     }
 
-    <!-- Add New Card Form -->
-    <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-        <h3 class="mb-4 text-lg font-bold text-gray-900 dark:text-white">Add New Card</h3>
+    <!-- Add Form -->
+    <div class="rounded-xl border border-[var(--app-border)] bg-[var(--app-surface)] p-6 shadow-sm mt-8">
+        <h3 class="mb-4 text-lg font-bold text-[var(--app-text)]">Add New Card</h3>
         <div class="grid gap-4 md:grid-cols-2">
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Front (Question)</label>
-                <input @bind="NewFront" placeholder="e.g. Staphylococcus aureus characteristics"
-                       class="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white" />
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Front</label>
+                <input @bind="NewFront" class="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 shadow-sm dark:border-slate-600 dark:bg-slate-700 dark:text-white" />
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Back (Answer)</label>
-                <input @bind="NewBack" placeholder="e.g. Gram-positive cocci in clusters, Catalase+, Coagulase+"
-                       class="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white" />
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Back</label>
+                <input @bind="NewBack" class="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 shadow-sm dark:border-slate-600 dark:bg-slate-700 dark:text-white" />
             </div>
         </div>
         <div class="mt-4 flex justify-end">
-            <button @onclick="AddCard"
-                    class="rounded-lg bg-emerald-600 px-6 py-2 font-semibold text-white shadow-sm hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
-                Add Card
-            </button>
+            <button @onclick="AddCard" class="rounded-lg bg-emerald-600 px-6 py-2 font-semibold text-white">Add Card</button>
         </div>
     </div>
 </div>
@@ -104,81 +76,51 @@
     private List<Flashcard> Cards = new();
     private int CurrentIndex = 0;
     private bool IsFlipped = false;
-    
     private string NewFront { get; set; } = "";
     private string NewBack { get; set; } = "";
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        var storedJson = await JSRuntime.InvokeAsync<string>("localStorage.getItem", StorageKey);
-        if (!string.IsNullOrEmpty(storedJson))
+        if (firstRender)
         {
-            Cards = JsonSerializer.Deserialize<List<Flashcard>>(storedJson) ?? new List<Flashcard>();
+            var json = await JSRuntime.InvokeAsync<string>("appStorage.load", StorageKey);
+            if (!string.IsNullOrEmpty(json))
+            {
+                try { Cards = JsonSerializer.Deserialize<List<Flashcard>>(json) ?? new(); StateHasChanged(); } catch {}
+            }
         }
     }
 
-    private void FlipCard()
-    {
-        IsFlipped = !IsFlipped;
-    }
-
-    private void NextCard()
-    {
-        if (Cards.Count == 0) return;
-        IsFlipped = false;
-        // Small delay to allow flip animation to reset if needed, but for UX instant is usually better
-        CurrentIndex = (CurrentIndex + 1) % Cards.Count;
-    }
-
-    private void PrevCard()
-    {
-        if (Cards.Count == 0) return;
-        IsFlipped = false;
-        CurrentIndex = (CurrentIndex - 1 + Cards.Count) % Cards.Count;
-    }
+    private void FlipCard() => IsFlipped = !IsFlipped;
+    private void NextCard() { if (Cards.Any()) { IsFlipped = false; CurrentIndex = (CurrentIndex + 1) % Cards.Count; } }
+    private void PrevCard() { if (Cards.Any()) { IsFlipped = false; CurrentIndex = (CurrentIndex - 1 + Cards.Count) % Cards.Count; } }
 
     private async Task AddCard()
     {
-        if (string.IsNullOrWhiteSpace(NewFront) || string.IsNullOrWhiteSpace(NewBack)) return;
-
-        Cards.Add(new Flashcard { Front = NewFront, Back = NewBack });
-        NewFront = "";
-        NewBack = "";
-        
-        // If this was the first card, ensure index is 0
-        if (Cards.Count == 1) CurrentIndex = 0;
-
-        await SaveCards();
+        if (!string.IsNullOrWhiteSpace(NewFront) && !string.IsNullOrWhiteSpace(NewBack))
+        {
+            Cards.Add(new Flashcard { Front = NewFront, Back = NewBack });
+            NewFront = ""; NewBack = "";
+            if (Cards.Count == 1) CurrentIndex = 0;
+            await SaveCards();
+        }
     }
 
     private async Task DeleteCard()
     {
-        if (Cards.Count == 0) return;
-
-        Cards.RemoveAt(CurrentIndex);
-        IsFlipped = false;
-
-        if (Cards.Count == 0)
+        if (Cards.Any())
         {
-            CurrentIndex = 0;
+            Cards.RemoveAt(CurrentIndex);
+            IsFlipped = false;
+            if (CurrentIndex >= Cards.Count) CurrentIndex = Math.Max(0, Cards.Count - 1);
+            await SaveCards();
         }
-        else if (CurrentIndex >= Cards.Count)
-        {
-            CurrentIndex = Cards.Count - 1;
-        }
-
-        await SaveCards();
     }
 
     private async Task SaveCards()
     {
-        var json = JsonSerializer.Serialize(Cards);
-        await JSRuntime.InvokeVoidAsync("localStorage.setItem", StorageKey, json);
+        await JSRuntime.InvokeVoidAsync("appStorage.save", StorageKey, JsonSerializer.Serialize(Cards));
     }
 
-    public class Flashcard
-    {
-        public string Front { get; set; } = "";
-        public string Back { get; set; } = "";
-    }
+    public class Flashcard { public string Front { get; set; } = ""; public string Back { get; set; } = ""; }
 }
