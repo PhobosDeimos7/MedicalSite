@@ -1,43 +1,33 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager Nav
 
 <!-- 
-    1. Removed "bg-gray-50". 
-    2. Added "bg-[var(--app-bg)]" and "text-[var(--app-text)]".
-    3. Added "transition-colors" so it animates smoothly.
+    Main Layout Wrapper
+    - min-h-screen: Ensures full height
+    - flex-col: Stacks Navbar and Main Content
+    - transition-colors: Smooth theme switching
 -->
-<div class="min-h-screen bg-[var(--app-bg)] text-[var(--app-text)] transition-colors duration-300">
+<div class="min-h-screen flex flex-col bg-[var(--app-bg)] text-[var(--app-text)] transition-colors duration-300">
     
-    <!-- Fixed Left Sidebar -->
-    <!-- Changed bg-slate-800 to bg-[var(--app-surface)] so it changes color with the theme -->
-    <aside class="fixed inset-y-0 left-0 z-30 w-64 bg-[var(--app-surface)] border-r border-[var(--app-border)] transition-colors duration-300">
-        <NavMenu />
-    </aside>
+    <!-- Top Navigation Bar -->
+    <TopNavBar />
 
-    <!-- Main Content Wrapper -->
-    <div class="ml-64 flex min-h-screen flex-col">
+    <!-- 
+        Main Content Area 
+        - Centered container (max-w-7xl)
+        - Flex-1 to fill remaining space
+    -->
+    <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
-        <!-- Fixed Top Header -->
         <!-- 
-           1. Changed "bg-white" to "bg-[var(--app-surface)]".
-           2. Changed "border-gray-200" to "border-[var(--app-border)]".
-           3. Changed text colors to inherit or use variables.
+            PAGE TRANSITION WRAPPER
+            @key="@Nav.Uri" forces Blazor to re-render this div 
+            whenever the URL changes, triggering the .page-transition CSS animation.
         -->
-        <header class="fixed top-0 right-0 left-64 z-20 flex h-16 items-center justify-between border-b border-[var(--app-border)] bg-[var(--app-surface)] px-6 shadow-sm transition-colors duration-300">
-            <span class="text-lg font-semibold">App Dashboard</span>
-            
-            <ThemeToggle />
-            
-            <div class="flex items-center gap-4">
-                <button class="rounded-full p-2 hover:bg-[var(--btn-hover)] transition-colors">
-                    🔔
-                </button>
-                <div class="h-8 w-8 rounded-full bg-blue-500"></div>
-            </div>
-        </header>
-
-        <!-- Main Content Area -->
-        <main class="mt-16 flex-1 p-8">
+        <div @key="@Nav.Uri" class="page-transition">
             @Body
-        </main>
-    </div>
+        </div>
+
+    </main>
+
 </div>

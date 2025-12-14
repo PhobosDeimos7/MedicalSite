@@ -1,0 +1,9 @@
+<div class="animate-enter @Class" style="animation-delay: @(Delay)ms">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string Class { get; set; } = "";
+    [Parameter] public int Delay { get; set; } = 0;
+}
