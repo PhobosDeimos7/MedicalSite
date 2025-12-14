@@ -1,36 +1,36 @@
-﻿<div class="flex h-full flex-col">
-    <!-- Logo Area -->
-    <div class="flex h-16 items-center justify-center bg-slate-900 shadow-md">
-        <span class="text-2xl font-bold tracking-tight text-blue-400">⚡ BlazorApp</span>
+﻿<div class="flex h-full flex-col text-[var(--app-text)]">
+    <!-- Logo Area (Static Text) -->
+    <div class="flex h-16 items-center justify-center border-b border-[var(--app-border)]">
+        <span class="text-2xl font-bold tracking-tight text-blue-500">
+            ⚡ BlazorApp
+        </span>
     </div>
 
     <!-- Navigation Links -->
     <nav class="flex-1 space-y-2 px-3 py-6">
-        <NavLink class="flex items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-300 transition-colors hover:bg-slate-700 hover:text-white" 
+        <!-- HOME BUTTON -->
+        <NavLink class="flex items-center rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-[var(--btn-hover)]" 
                  href="" 
                  Match="NavLinkMatch.All">
             <span class="mr-3 text-xl">🏠</span>
             Home
         </NavLink>
 
-        <NavLink class="flex items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-300 transition-colors hover:bg-slate-700 hover:text-white" 
+        <NavLink class="flex items-center rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-[var(--btn-hover)]" 
                  href="abg">
             <span class="mr-3 text-xl">🩸</span>
             ABG
         </NavLink>
 
-        <NavLink class="flex items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-300 transition-colors hover:bg-slate-700 hover:text-white" 
+        <NavLink class="flex items-center rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-[var(--btn-hover)]" 
                  href="learning-centre">
             <span class="mr-3 text-xl">🎓</span>
             Learning Centre
         </NavLink>
     </nav>
 
-    <!-- Footer / User Info (Optional spacer) -->
-    <div class="border-t border-slate-700 p-4">
-        <p class="text-xs text-slate-400">v1.0.0</p>
+    <!-- Footer -->
+    <div class="border-t border-[var(--app-border)] p-4">
+        <p class="text-xs opacity-60">v1.0.0</p>
     </div>
 </div>
-
-@code {
-}

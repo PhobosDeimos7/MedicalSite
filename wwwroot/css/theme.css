@@ -1,0 +1,62 @@
+/* Define the variables for Light Mode (default) */
+:root {
+    --app-bg: #ffffff;
+    --app-text: #1a1a1a;
+    --app-surface: #f3f4f6;
+    --app-border: #d1d5db;
+    --btn-hover: #e5e7eb;
+}
+
+/* Define the variables for Dark Mode */
+html.dark {
+    --app-bg: #0f172a;
+    --app-text: #f3f4f6;
+    --app-surface: #1e293b;
+    --app-border: #334155;
+    --btn-hover: #334155;
+}
+
+/* Apply variables globally */
+body {
+    background-color: var(--app-bg) !important;
+    color: var(--app-text) !important;
+    /* Smooth transition for theme switching */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin: 0;
+    font-family: sans-serif;
+}
+
+/* Styles for the toggle button */
+.theme-toggle-btn {
+    background-color: transparent;
+    border: 1px solid var(--app-border);
+    color: var(--app-text);
+    padding: 0.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.theme-toggle-btn:hover {
+    background-color: var(--btn-hover);
+}
+
+.theme-toggle-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+/* Add this to the top of theme.css */
+html, body, #app {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+/* Ensure the background applies to HTML too, not just body */
+html {
+    background-color: var(--app-bg);
+}
