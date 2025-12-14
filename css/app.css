@@ -1,0 +1,249 @@
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+h1:focus {
+    outline: none;
+}
+
+a, .btn-link {
+    color: #0071c1;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+.content {
+    padding-top: 1.1rem;
+}
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+.invalid {
+    outline: 1px solid red;
+}
+
+.validation-message {
+    color: red;
+}
+
+#blazor-error-ui {
+    color-scheme: light only;
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+}
+
+.loading-progress {
+    position: relative;
+    display: block;
+    width: 8rem;
+    height: 8rem;
+    margin: 20vh auto 1rem auto;
+}
+
+.loading-progress circle {
+    fill: none;
+    stroke: #e0e0e0;
+    stroke-width: 0.6rem;
+    transform-origin: 50% 50%;
+    transform: rotate(-90deg);
+}
+
+.loading-progress circle:last-child {
+    stroke: #1b6ec2;
+    stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
+    transition: stroke-dasharray 0.05s ease-in-out;
+}
+
+.loading-progress-text {
+    position: absolute;
+    text-align: center;
+    font-weight: bold;
+    inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
+}
+
+.loading-progress-text:after {
+    content: var(--blazor-load-percentage-text, "Loading");
+}
+
+code {
+    color: #c02d76;
+}
+
+/* ==============================================
+   DARK MODE & LAYOUT OVERRIDES
+   ============================================== */
+#app, .page, main, .content, .toprow {
+    background-color: transparent !important;
+    background-image: none !important;
+    color: inherit !important;
+}
+
+.sidebar {
+    background-image: none !important;
+    background-color: var(--app-surface) !important;
+    border-right: 1px solid var(--app-border);
+}
+
+.sidebar a {
+    color: var(--app-text) !important;
+}
+
+.sidebar .nav-item a.active {
+    background-color: var(--btn-hover) !important;
+    color: var(--app-text) !important;
+}
+
+/* ==============================================
+   ANIMATION UTILITIES & HELPERS
+   ============================================== */
+
+/* 1. Global Entrance Keyframes (Fade + Slide Up) */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 2. Entrance Utility Class (Used by AnimateIn.razor) */
+.animate-enter {
+    opacity: 0; 
+    animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 3. Page Transition Wrapper (Used in MainLayout) */
+.page-transition {
+    /* Slightly faster animation for page navigation */
+    animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    width: 100%;
+}
+
+/* 4. Reusable Interactive Card Class 
+   Converted from @apply to standard CSS to fix validation errors
+*/
+.card-interactive {
+    /* Layout & Box Model */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1rem; /* rounded-2xl */
+    padding: 2rem;       /* p-8 */
+    
+    /* Theming */
+    border: 1px solid var(--app-border);
+    background-color: var(--app-surface);
+    
+    /* Interaction & Transition */
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
+    transition: all 300ms ease-in-out;
+    cursor: pointer;
+    
+    /* Hardware acceleration */
+    transform: translateZ(0); 
+    text-decoration: none; /* remove default link underline */
+}
+
+/* Hover State for Card */
+.card-interactive:hover {
+    transform: translateY(-4px) translateZ(0);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* shadow-xl */
+    border-color: rgba(59, 130, 246, 0.3); /* border-blue-500/30 */
+}
+
+/* Ensure hover affects the 'group' logic inside (like the icon colors) */
+.card-interactive:hover .group-hover\:text-white {
+    color: #ffffff;
+}
+.card-interactive:hover .group-hover\:bg-red-600 {
+    background-color: #dc2626;
+}
+.card-interactive:hover .group-hover\:bg-indigo-600 {
+    background-color: #4f46e5;
+}
+.card-interactive:hover .group-hover\:bg-emerald-600 {
+    background-color: #059669;
+}
+.card-interactive:hover .group-hover\:text-blue-600 {
+    color: #2563eb;
+}
+/* Flowchart Animation */
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-slide-down {
+    animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+/* =========================================
+   PROFESSIONAL FLOWCHART ANIMATIONS
+   ========================================= */
+
+/* 1. Smooth Reveal (Entrance) 
+   Combines a slight slide, fade, and scale-up for a 'growing' effect.
+*/
+@keyframes smoothReveal {
+    0% { 
+        opacity: 0; 
+        transform: translateY(-10px) scale(0.98); 
+    }
+    100% { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+    }
+}
+
+.animate-tree-enter {
+    animation: smoothReveal 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+    transform-origin: top center; /* Ensures it grows from the parent */
+}
+
+/* 2. Connector Line Animation 
+   delays the drawing of lines slightly so the cards appear first
+*/
+.animate-line {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* 3. Card Micro-interactions 
+   Overrides default transitions for a 'weighty' feel
+*/
+.node-card-transition {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+                box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.2s ease;
+}
