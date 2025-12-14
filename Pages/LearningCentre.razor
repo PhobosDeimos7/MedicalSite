@@ -7,13 +7,11 @@
 <PageTitle>Learning Centre</PageTitle>
 
 <div class="max-w-4xl mx-auto space-y-8 pb-12">
-    <!-- Header -->
     <div class="text-center">
         <h1 class="text-3xl font-bold text-[var(--app-text)]">Learning Centre</h1>
         <p class="text-slate-500 mt-2">Choose a subject to explore topics.</p>
     </div>
 
-    <!-- State Handling -->
     @if (Subjects == null)
     {
         <div class="text-center py-10">
@@ -23,24 +21,13 @@
     }
     else if (Subjects.Count == 0)
     {
-        <!-- DEBUGGING STATE: Data loaded but list is empty -->
         <div class="p-6 bg-amber-50 border border-amber-200 rounded-xl text-center">
             <h3 class="text-lg font-bold text-amber-800">⚠️ Connected, but 0 Subjects found</h3>
-            <p class="text-amber-700 mt-2">
-                The app successfully contacted Firebase, but couldn't find the "Subjects" list in the returned data.
-            </p>
-            <div class="mt-4 p-3 bg-white rounded border border-amber-100 text-left text-xs font-mono text-slate-600 overflow-x-auto">
-                <strong>Action Required:</strong><br/>
-                1. Press <b>F12</b> to open Browser Developer Tools.<br/>
-                2. Click the <b>Console</b> tab.<br/>
-                3. Look for the log starting with <b>FIREBASE RAW RESPONSE</b>.<br/>
-                4. Tell me if it starts with <code>[</code>, <code>{"subjects":</code>, or something else.
-            </div>
+            <p class="text-amber-700 mt-2">No subjects were found in the data.</p>
         </div>
     }
     else
     {
-        <!-- Data Loaded Successfully -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             @foreach (var subject in Subjects)
             {
@@ -53,7 +40,8 @@
                         <div class="space-y-2">
                             @foreach(var topic in subject.Topics)
                             {
-                                <button @onclick='() => Nav.NavigateTo($"/learning/{subject.Id}/{topic.Id}")'
+                                <!-- FIX HERE: Removed leading slash in NavigateTo string -->
+                                <button @onclick='() => Nav.NavigateTo($"learning/{subject.Id}/{topic.Id}")'
                                         class="block w-full text-left px-3 py-2 rounded bg-slate-50 hover:bg-blue-50 text-slate-700 hover:text-blue-700 text-sm transition-colors flex items-center gap-2">
                                     <span>📄</span>
                                     <span>@topic.Title</span>
@@ -76,7 +64,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // This calls the service which prints the raw JSON to the F12 Console
         Subjects = await LearningService.GetSubjectsAsync();
     }
 }

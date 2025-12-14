@@ -16,6 +16,7 @@
         <!-- Breadcrumb & Title -->
         <div class="mb-6 border-b border-[var(--app-border)] pb-4">
             <div class="flex items-center gap-2 text-sm text-slate-500 mb-2">
+                <!-- Ensure this link has NO leading slash -->
                 <a href="learning-centre" class="hover:text-blue-600">Centre</a>
                 <span>/</span>
                 <span class="capitalize">@SubjectId</span>
@@ -99,13 +100,8 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        // 1. Data Loading Strategy
-        // We fetch data based on the URL parameters (SubjectId, TopicId).
-        // This makes the routing "Data-Driven" - adding a new topic in JSON makes it work instantly.
         CurrentTopic = await LearningService.GetTopicAsync(SubjectId, TopicId);
 
-        // 2. Logic to handle the specific "Flowcharts" route
-        // If the user visits "/learning-centre/.../flowcharts/...", we force the view.
         if (Nav.Uri.Contains("/flowcharts/") && string.IsNullOrEmpty(CurrentView))
         {
             CurrentView = "flowcharts";
@@ -114,11 +110,10 @@
 
     private void Navigate(string view) 
     {
-        // Maintains the "pretty" URL structure if they are already deep-linked, 
-        // or falls back to standard routing.
         if (Nav.Uri.Contains("/flowcharts/") && view == "flowcharts") return;
         
-        Nav.NavigateTo($"/learning/{SubjectId}/{TopicId}/{view}");
+        // FIX HERE: Removed leading slash
+        Nav.NavigateTo($"learning/{SubjectId}/{TopicId}/{view}");
     }
 
     private string GetTabClass(string viewName)
