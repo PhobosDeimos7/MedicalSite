@@ -5,6 +5,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MedicalSite</title>
+    
+    <!-- IMPORTANT: This must match your Repository Name exactly with slashes -->
     <base href="/MedicalSite/" />
     
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -28,9 +30,7 @@
     </script>
     <script src="js/theme.js"></script>
 
-    <!-- FIX: Styles for the loading screen to match Dark Mode -->
     <style>
-        /* Default Light Mode Loader */
         #app {
             background-color: #f3f4f6;
             color: #1a1a1a;
@@ -42,20 +42,12 @@
             justify-content: center;
             transition: background-color 0.3s;
         }
-        
-        /* Dark Mode Loader (Applied if JS adds .dark class early) */
         html.dark #app {
             background-color: #0f172a;
             color: #f3f4f6;
         }
-
-        .loading-progress circle {
-            stroke: #e0e0e0;
-        }
-        
-        html.dark .loading-progress circle {
-            stroke: #334155;
-        }
+        .loading-progress circle { stroke: #e0e0e0; }
+        html.dark .loading-progress circle { stroke: #334155; }
     </style>
 </head>
 
@@ -76,5 +68,4 @@
 
     <script src="_framework/blazor.webassembly.js"></script>
 </body>
-
 </html>
