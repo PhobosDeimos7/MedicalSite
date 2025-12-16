@@ -1,0 +1,66 @@
+@page "/blog"
+@using MedicalSite.Features.Learning.Services
+@using MedicalSite.Features.Learning.Models
+@inject LearningService LearningService
+
+<div class="max-w-4xl mx-auto pb-12 px-4">
+    <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-slate-900 dark:text-white mb-2">Dev & Content Log</h1>
+        <p class="text-slate-500">Updates, new topics, and changelogs.</p>
+    </div>
+
+    @if (IsLoading)
+    {
+         <div class="text-center py-12 text-slate-500">Loading updates...</div>
+    }
+    else if (!Posts.Any())
+    {
+        <div class="text-center text-slate-400 py-12">No updates yet.</div>
+    }
+    else
+    {
+        <div class="space-y-8 animate-fade-in">
+            @foreach (var post in Posts)
+            {
+                <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-sm text-slate-400">@post.Date</span>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300">
+                            @post.Tag
+                        </span>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">@post.Title</h2>
+                    <!-- whitespace-pre-line ensures your \n line breaks work -->
+                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-line">
+                        @post.Content
+                    </p>
+                    <div class="mt-4 text-xs text-slate-400 border-t border-slate-100 dark:border-slate-700 pt-3">
+                        Posted by @post.Author
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    // FIX 1: Initialize the list immediately to prevent "Non-nullable field" warning
+    private List<BlogPost> Posts = new();
+    
+    // FIX 2: Add a loading state flag
+    private bool IsLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await LearningService.GetBlogPostsAsync();
+        
+        if (result != null)
+        {
+            Posts = result;
+            // Sort by newest first (assuming your JSON has oldest first)
+            Posts.Reverse(); 
+        }
+        
+        IsLoading = false;
+    }
+}
