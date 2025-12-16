@@ -1,69 +1,80 @@
 @page "/learning-centre"
+@using MedicalSite.Features.Learning.Components
 @using MedicalSite.Features.Learning.Models
 @using MedicalSite.Features.Learning.Services
 @inject LearningService LearningService
 @inject NavigationManager Nav
 
-<PageTitle>Learning Centre</PageTitle>
-
-<div class="max-w-4xl mx-auto space-y-8 pb-12">
-    <div class="text-center">
-        <h1 class="text-3xl font-bold text-[var(--app-text)]">Learning Centre</h1>
-        <p class="text-slate-500 mt-2">Choose a subject to explore topics.</p>
+<div class="max-w-6xl mx-auto pb-12">
+    <div class="mb-10 text-center">
+        <h1 class="text-4xl font-bold text-[var(--app-text)] mb-3">Learning Centre</h1>
+        <p class="text-slate-500 text-lg">Select a subject to begin studying.</p>
     </div>
 
-    @if (Subjects == null)
+    @if (IsLoading)
     {
-        <div class="text-center py-10">
-            <div class="spinner-border text-blue-500 inline-block w-8 h-8 border-4 rounded-full" role="status"></div>
-            <p class="mt-2 text-slate-500">Loading content from Firebase...</p>
-        </div>
-    }
-    else if (Subjects.Count == 0)
-    {
-        <div class="p-6 bg-amber-50 border border-amber-200 rounded-xl text-center">
-            <h3 class="text-lg font-bold text-amber-800">⚠️ Connected, but 0 Subjects found</h3>
-            <p class="text-amber-700 mt-2">No subjects were found in the data.</p>
-        </div>
+        <div class="text-center py-20 text-slate-400">Loading subjects...</div>
     }
     else
     {
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            @foreach (var subject in Subjects)
+        <!-- SECTION 1: Para-clinical -->
+        <div class="mb-12">
+            <h2 class="text-2xl font-bold text-slate-700 dark:text-slate-200 border-b border-slate-200 dark:border-slate-700 pb-2 mb-6">
+                🧬 Para-clinical Subjects
+            </h2>
+            
+            @if (ParaClinicalSubjects.Any())
             {
-                <div class="bg-[var(--app-surface)] border border-[var(--app-border)] rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
-                    <h2 class="text-xl font-bold text-[var(--app-text)] mb-2">@subject.Name</h2>
-                    <p class="text-sm text-slate-500 mb-4">@subject.Description</p>
-                    
-                    @if(subject.Topics.Any())
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach (var subject in ParaClinicalSubjects)
                     {
-                        <div class="space-y-2">
-                            @foreach(var topic in subject.Topics)
-                            {
-                                <!-- FIX HERE: Removed leading slash in NavigateTo string -->
-                                <button @onclick='() => Nav.NavigateTo($"learning/{subject.Id}/{topic.Id}")'
-                                        class="block w-full text-left px-3 py-2 rounded bg-slate-50 hover:bg-blue-50 text-slate-700 hover:text-blue-700 text-sm transition-colors flex items-center gap-2">
-                                    <span>📄</span>
-                                    <span>@topic.Title</span>
-                                </button>
-                            }
-                        </div>
-                    }
-                    else
-                    {
-                        <span class="text-xs text-slate-400 italic">No topics added yet.</span>
+                        <SubjectCard Subject="subject" />
                     }
                 </div>
+            }
+            else
+            {
+                <div class="text-slate-400 italic">No para-clinical subjects found.</div>
+            }
+        </div>
+
+        <!-- SECTION 2: Clinical -->
+        <div>
+            <h2 class="text-2xl font-bold text-slate-700 dark:text-slate-200 border-b border-slate-200 dark:border-slate-700 pb-2 mb-6">
+                🏥 Clinical Subjects
+            </h2>
+
+            @if (ClinicalSubjects.Any())
+            {
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach (var subject in ClinicalSubjects)
+                    {
+                        <SubjectCard Subject="subject" />
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="text-slate-400 italic">No clinical subjects added yet.</div>
             }
         </div>
     }
 </div>
 
 @code {
-    private List<Subject>? Subjects;
+    private List<Subject> Subjects = new();
+    private bool IsLoading = true;
+
+    // Filter Logic
+    private IEnumerable<Subject> ParaClinicalSubjects => 
+        Subjects.Where(s => s.Category == "Para-clinical");
+
+    private IEnumerable<Subject> ClinicalSubjects => 
+        Subjects.Where(s => s.Category == "Clinical");
 
     protected override async Task OnInitializedAsync()
     {
         Subjects = await LearningService.GetSubjectsAsync();
+        IsLoading = false;
     }
 }

@@ -1,147 +1,149 @@
 {
-    "subjects": [
-      {
-        "id": "pharmacology",
-        "name": "Pharmacology",
-        "description": "Drug mechanisms, kinetics, and therapeutic classifications.",
-        "topics": [
-          {
-            "id": "ans",
-            "title": "Autonomic Nervous System",
-            "summary": "The ANS regulates involuntary physiologic processes including heart rate, blood pressure, respiration, digestion, and sexual arousal.",
-            "clinicalRelevance": "Dysregulation of the ANS is implicated in many disease states.",
-            "examPearls": [
-              "Sympathetic = Fight or Flight",
-              "Parasympathetic = Rest and Digest"
-            ],
-            "definitions": [],
-            "flashcards": [],
-            "rootFlowchartNode": {
-               "title": "ANS",
-               "description": "Start",
-               "children": []
-            }
+  "subjects": [
+    {
+      "id": "pharmacology",
+      "name": "Pharmacology",
+      "category": "Para-clinical",
+      "description": "Drug mechanisms, kinetics, and therapeutic classifications.",
+      "topics": [
+        {
+          "id": "ans",
+          "title": "Autonomic Nervous System",
+          "summary": "The ANS regulates involuntary physiologic processes including heart rate, blood pressure, respiration, digestion, and sexual arousal.",
+          "clinicalRelevance": "Dysregulation of the ANS is implicated in many disease states.",
+          "examPearls": [
+            "Sympathetic = Fight or Flight",
+            "Parasympathetic = Rest and Digest"
+          ],
+          "definitions": [],
+          "flashcards": [],
+          "rootFlowchartNode": {
+            "title": "ANS",
+            "description": "Start",
+            "children": []
+          }
+        },
+        {
+          "id": "CCF",
+          "title": "Congestive Cardiac Failure",
+          "summary": "Heart failure is a syndrome of impaired cardiac output resulting from structural or functional abnormalities in the myocardium. It can manifest as systolic (reduced ejection fraction) or diastolic (preserved ejection fraction) failure, involving either side of the heart.\n\nManagement focuses on symptom relief, preventing progression (ventricular remodeling), and improving survival through neurohormonal blockade (ACE inhibitors, beta-blockers, aldosterone antagonists, etc.), diuretics for symptom control, and newer agents like ARNIs and SGLT2 inhibitors.",
+          "clinicalRelevance": "Sacubitril/valsartan (ARNI) and SGLT2 inhibitors (dapagliflozin, empagliflozin) now form part of standard therapy per current heart failure guidelines (AHA/ESC).",
+          "overview": {
+            "definition": "Heart Failure: A complex clinical syndrome resulting from structural or functional cardiac disorders impairing ventricular filling or ejection of blood.\n\n1. Systolic HF (HFrEF): EF < 40%; impaired contraction.\n2. Diastolic HF (HFpEF): EF ≥ 50%; impaired relaxation/filling.\n3. Right-sided HF: Systemic congestion due to pulmonary or left heart pathology. \n4. Left-sided HF: Pulmonary congestion due to left ventricular dysfunction.",
+            "summary": "Systolic dysfunction refers to a failure of contraction, leading to decreased ejection fraction and dilated ventricles. The ventricular walls may appear thin and overstretched, leading to balloon-like chambers with reduced contractility.\nDiastolic dysfunction, on the other hand, is primarily a filling problem. The ventricle becomes hypertrophied and stiff, reducing its ability to relax and fill properly during diastole. Ejection fraction remains normal because the ventricle can still contract, but less blood enters it in the first place.\nLeft-sided failure causes blood to back up into the pulmonary veins and capillaries, leading to pulmonary edema and symptoms such as dyspnea, orthopnea, and crackles on auscultation.\nRight-sided failure leads to systemic venous congestion, producing signs such as peripheral edema, distended neck veins, hepatomegaly, ascites, and even generalized anasarca.\nCompensatory mechanisms include increased sympathetic activity and activation of the renin-angiotensin-aldosterone system (RAAS). These mechanisms initially help maintain blood pressure and perfusion but eventually worsen the condition by causing sodium and water retention, vasoconstriction, and ventricular remodeling.",
+            "examPearls": "1. The most common cause of right-sided heart failure is left-sided heart failure.\n2. Brain natriuretic peptide (BNP) is elevated in heart failure and serves as a diagnostic marker.\n3. ACE inhibitors are the cornerstone of long-term management because they prevent or reverse ventricular remodeling.\n4. Digoxin toxicity is often precipitated by hypokalemia, so potassium levels must be monitored.\n5. Carvedilol, metoprolol, and bisoprolol are the beta-blockers proven to improve survival in chronic heart failure.\n6. ARNI combinations such as sacubitril and valsartan reduce hospitalization and mortality compared to ACE inhibitors alone.\n7. Diuretics provide symptomatic relief but do not reduce mortality.\n9. Calcium channel blockers like verapamil and diltiazem should be avoided in systolic heart failure because they are negative inotropes.\n10. SGLT2 inhibitors, though initially developed for diabetes, now play a key role in improving outcomes in patients with heart failure with reduced ejection fraction."
           },
-          {
-            "id": "CCF",
-            "title": "Congestive Cardiac Failure",
-            "summary": "Heart failure is a syndrome of impaired cardiac output resulting from structural or functional abnormalities in the myocardium. It can manifest as systolic (reduced ejection fraction) or diastolic (preserved ejection fraction) failure, involving either side of the heart. Management focuses on symptom relief, preventing progression (ventricular remodeling), and improving survival through neurohormonal blockade (ACE inhibitors, beta-blockers, aldosterone antagonists, etc.), diuretics for symptom control, and newer agents like ARNIs and SGLT2 inhibitors.",
-            "clinicalRelevance": "Sacubitril/valsartan (ARNI) and SGLT2 inhibitors (dapagliflozin, empagliflozin) now form part of standard therapy per current heart failure guidelines (AHA/ESC).",
-            "overview": {
-                "definition": "Heart Failure: A complex clinical syndrome resulting from structural or functional cardiac disorders impairing ventricular filling or ejection of blood.\n\n1. Systolic HF (HFrEF): EF < 40%; impaired contraction.\n2. Diastolic HF (HFpEF): EF ≥ 50%; impaired relaxation/filling.\n3. Right-sided HF: Systemic congestion due to pulmonary or left heart pathology. \n4. Left-sided HF: Pulmonary congestion due to left ventricular dysfunction.",
-                "summary": "Systolic dysfunction refers to a failure of contraction, leading to decreased ejection fraction and dilated ventricles. The ventricular walls may appear thin and overstretched, leading to balloon-like chambers with reduced contractility.\nDiastolic dysfunction, on the other hand, is primarily a filling problem. The ventricle becomes hypertrophied and stiff, reducing its ability to relax and fill properly during diastole. Ejection fraction remains normal because the ventricle can still contract, but less blood enters it in the first place.\nLeft-sided failure causes blood to back up into the pulmonary veins and capillaries, leading to pulmonary edema and symptoms such as dyspnea, orthopnea, and crackles on auscultation.\nRight-sided failure leads to systemic venous congestion, producing signs such as peripheral edema, distended neck veins, hepatomegaly, ascites, and even generalized anasarca.\nCompensatory mechanisms include increased sympathetic activity and activation of the renin-angiotensin-aldosterone system (RAAS). These mechanisms initially help maintain blood pressure and perfusion but eventually worsen the condition by causing sodium and water retention, vasoconstriction, and ventricular remodeling.",
-                "examPearls": "1. The most common cause of right-sided heart failure is left-sided heart failure.\n2. Brain natriuretic peptide (BNP) is elevated in heart failure and serves as a diagnostic marker.\n3. ACE inhibitors are the cornerstone of long-term management because they prevent or reverse ventricular remodeling.\n4. Digoxin toxicity is often precipitated by hypokalemia, so potassium levels must be monitored.\n5. Carvedilol, metoprolol, and bisoprolol are the beta-blockers proven to improve survival in chronic heart failure.\n6. ARNI combinations such as sacubitril and valsartan reduce hospitalization and mortality compared to ACE inhibitors alone.\n7. Diuretics provide symptomatic relief but do not reduce mortality.\n9. Calcium channel blockers like verapamil and diltiazem should be avoided in systolic heart failure because they are negative inotropes.\n10. SGLT2 inhibitors, though initially developed for diabetes, now play a key role in improving outcomes in patients with heart failure with reduced ejection fraction."
+          "examPearls": [
+            "Diuretics such as furosemide, thiazides, or aldosterone antagonists reduce fluid overload by promoting sodium and water excretion. They relieve symptoms like pulmonary congestion and edema but do not improve long-term survival.",
+            "ACE inhibitors like lisinopril reduce the formation of angiotensin II, leading to decreased preload, afterload, and aldosterone secretion. This lowers cardiac workload and prevents ventricular remodeling, significantly improving prognosis. A common side effect is cough due to bradykinin accumulation.",
+            "ARBs such as losartan or valsartan are used when ACE inhibitors are not tolerated. They block the effects of angiotensin II at its receptor, reducing vasoconstriction and fluid retention without affecting bradykinin.",
+            "ARNIs combine a neprilysin inhibitor (sacubitril) with an ARB (valsartan). This combination increases levels of beneficial natriuretic peptides while blocking the RAAS pathway, resulting in vasodilation, natriuresis, and reduced remodeling.",
+            "Beta-blockers like bisoprolol, metoprolol, and carvedilol counteract the harmful effects of chronic sympathetic stimulation, improving ventricular function and survival. Although they initially seem counterintuitive in heart failure, they are essential in chronic management once the patient is hemodynamically stable.",
+            "Aldosterone antagonists such as spironolactone and eplerenone prevent salt and water retention and also reduce fibrosis and remodeling. Spironolactone can cause gynecomastia, while eplerenone has fewer hormonal side effects.",
+            "Cardiac glycosides like digoxin inhibit the Na⁺/K⁺ ATPase pump, increasing intracellular calcium and enhancing myocardial contractility. They are mainly used for symptomatic relief in systolic heart failure, especially in patients with atrial fibrillation. Toxicity manifests as nausea, vomiting, bradycardia, and arrhythmias, and is precipitated by hypokalemia. Treatment includes potassium supplementation, antiarrhythmics such as lidocaine, or digoxin-specific antibody fragments (Digi-bind).",
+            "Vasodilators like nitrates and hydralazine reduce preload and afterload, improving cardiac output. The combination is particularly beneficial in patients intolerant to ACE inhibitors or ARBs.",
+            "Ivabradine acts on the sinoatrial node by blocking the funny current (If), thereby reducing heart rate and cardiac workload. It is used in chronic heart failure when the patient’s heart rate remains elevated despite beta-blocker therapy.",
+            "PDE inhibitors such as milrinone and amrinone increase intracellular cyclic AMP, promoting calcium entry and improving contractility. They are reserved for short-term use in acute decompensated heart failure due to risk of arrhythmias.",
+            "Calcium sensitizers like levosimendan enhance cardiac muscle contractility by increasing the sensitivity of troponin C to calcium, without raising intracellular calcium levels.",
+            "SGLT2 inhibitors, including dapagliflozin and empagliflozin, promote osmotic diuresis and have been shown to reduce heart failure hospitalization and mortality even in non-diabetic patients."
+          ],
+          "definitions": [
+            {
+              "term": "Concepts and Mechanisms:",
+              "meaning": "Preload refers to the volume of blood returning to the heart and filling the ventricles. Afterload is the resistance the ventricle must overcome to eject blood into the systemic circulation.\nAccording to Starling’s Law, an optimal overlap between actin and myosin fibers leads to a stronger contraction, but excessive stretching causes failure.\nThe renin-angiotensin-aldosterone system plays a central role in the pathophysiology of heart failure, causing sodium retention, vasoconstriction, and remodeling. Targeting this pathway is fundamental in modern therapy."
+            }
+          ],
+          "flashcards": [
+            {
+              "id": "fc1",
+              "front": "What is heart failure?",
+              "back": "Heart failure is the inability of the heart to pump enough blood to meet the metabolic demands of body tissues.",
+              "difficulty": 1,
+              "yield": "Low",
+              "tags": ["Basic Definition"]
             },
-            "examPearls": [
-              "Diuretics such as furosemide, thiazides, or aldosterone antagonists reduce fluid overload by promoting sodium and water excretion. They relieve symptoms like pulmonary congestion and edema but do not improve long-term survival.",
-              "ACE inhibitors like lisinopril reduce the formation of angiotensin II, leading to decreased preload, afterload, and aldosterone secretion. This lowers cardiac workload and prevents ventricular remodeling, significantly improving prognosis. A common side effect is cough due to bradykinin accumulation.",
-              "ARBs such as losartan or valsartan are used when ACE inhibitors are not tolerated. They block the effects of angiotensin II at its receptor, reducing vasoconstriction and fluid retention without affecting bradykinin.",
-              "ARNIs combine a neprilysin inhibitor (sacubitril) with an ARB (valsartan). This combination increases levels of beneficial natriuretic peptides while blocking the RAAS pathway, resulting in vasodilation, natriuresis, and reduced remodeling.",
-              "Beta-blockers like bisoprolol, metoprolol, and carvedilol counteract the harmful effects of chronic sympathetic stimulation, improving ventricular function and survival. Although they initially seem counterintuitive in heart failure, they are essential in chronic management once the patient is hemodynamically stable.",
-              "Aldosterone antagonists such as spironolactone and eplerenone prevent salt and water retention and also reduce fibrosis and remodeling. Spironolactone can cause gynecomastia, while eplerenone has fewer hormonal side effects.",
-              "Cardiac glycosides like digoxin inhibit the Na⁺/K⁺ ATPase pump, increasing intracellular calcium and enhancing myocardial contractility. They are mainly used for symptomatic relief in systolic heart failure, especially in patients with atrial fibrillation. Toxicity manifests as nausea, vomiting, bradycardia, and arrhythmias, and is precipitated by hypokalemia. Treatment includes potassium supplementation, antiarrhythmics such as lidocaine, or digoxin-specific antibody fragments (Digi-bind).",
-              "Vasodilators like nitrates and hydralazine reduce preload and afterload, improving cardiac output. The combination is particularly beneficial in patients intolerant to ACE inhibitors or ARBs.",
-              "Ivabradine acts on the sinoatrial node by blocking the funny current (If), thereby reducing heart rate and cardiac workload. It is used in chronic heart failure when the patient’s heart rate remains elevated despite beta-blocker therapy.",
-              "PDE inhibitors such as milrinone and amrinone increase intracellular cyclic AMP, promoting calcium entry and improving contractility. They are reserved for short-term use in acute decompensated heart failure due to risk of arrhythmias.",
-              "Calcium sensitizers like levosimendan enhance cardiac muscle contractility by increasing the sensitivity of troponin C to calcium, without raising intracellular calcium levels.",
-              "SGLT2 inhibitors, including dapagliflozin and empagliflozin, promote osmotic diuresis and have been shown to reduce heart failure hospitalization and mortality even in non-diabetic patients."
-            ],
-            "definitions": [
-              {
-                "term": "Concepts and Mechanisms:",
-                "meaning": "Preload refers to the volume of blood returning to the heart and filling the ventricles. Afterload is the resistance the ventricle must overcome to eject blood into the systemic circulation.\nAccording to Starling’s Law, an optimal overlap between actin and myosin fibers leads to a stronger contraction, but excessive stretching causes failure.\nThe renin-angiotensin-aldosterone system plays a central role in the pathophysiology of heart failure, causing sodium retention, vasoconstriction, and remodeling. Targeting this pathway is fundamental in modern therapy."
-              }
-            ],
-            "flashcards": [
-              {
-                "id": "fc1",
-                "front": "What is heart failure?",
-                "back": "Heart failure is the inability of the heart to pump enough blood to meet the metabolic demands of body tissues.",
-                "difficulty": 1,
-                "yield": "Low",
-                "tags": ["Basic Definition"]
-              },
-              {
-                "id": "fc2",
-                "front": "What distinguishes systolic from diastolic heart failure?",
-                "back": "Systolic failure involves decreased contractility and reduced ejection fraction, while diastolic failure involves impaired relaxation with normal ejection fraction.",
-                "difficulty": 1,
-                "yield": "Low",
-                "tags": ["Basic Difference"]
-              },
-              {
-                "id": "fc3",
-                "front": "What are the cardinal symptoms of left-sided failure?",
-                "back": "Dyspnea, orthopnea, and pulmonary congestion.",
-                "difficulty": 2,
-                "yield": "Medium",
-                "tags": ["Symptoms"]
-              },
-              {
-                "id": "fc4",
-                "front": "What are the hallmark signs of right-sided failure?",
-                "back": "Peripheral edema, hepatomegaly, ascites, and jugular venous distension.",
-                "difficulty": 2,
-                "yield": "Medium",
-                "tags": ["Signs"]
-              },
-              {
-                "id": "fc5",
-                "front": "What are the body’s compensatory mechanisms in heart failure?",
-                "back": "Activation of the sympathetic nervous system and RAAS to maintain perfusion, which eventually worsen the condition.",
-                "difficulty": 4,
-                "yield": "High",
-                "tags": ["Mechanism"]
-              },
-              {
-                "id": "fc6",
-                "front": "What is ventricular remodeling?",
-                "back": "Structural changes in the myocardium due to chronic pressure or volume overload leading to dilation or hypertrophy.",
-                "difficulty": 2,
-                "yield": "Low",
-                "tags": ["Mechanism"]
-              },
-              {
-                "id": "fc7",
-                "front": "Which drugs prevent remodeling?",
-                "back": "ACE inhibitors, ARBs, beta-blockers, and aldosterone antagonists.",
-                "difficulty": 4,
-                "yield": "High",
-                "tags": ["Drugs"]
-              },
-              {
-                "id": "fc8",
-                "front": "Why do ACE inhibitors cause cough?",
-                "back": "bradykinin accumulation in the lungs.",
-                "difficulty": 6,
-                "yield": "low",
-                "tags": ["ADR"]
-              },
-              {
-                "id": "fc9",
-                "front": "When are ARBs preferred?",
-                "back": "They are preferred when patients cannot tolerate ACE inhibitors due to cough or angioedema.",
-                "difficulty": 4,
-                "yield": "High",
-                "tags": ["Contraindications"]
-              },
-              {
-                "id": "fc10",
-                "front": "What is the mechanism of digoxin?",
-                "back": "It inhibits the Na⁺/K⁺ ATPase pump, increasing intracellular calcium and contractility.",
-                "difficulty": 4,
-                "yield": "High",
-                "tags": ["Mechanism"]
-              },
-              {
-                "id": "fc11",
-                "front": "What precipitates digoxin toxicity?",
-                "back": "Hypokalemia",
-                "difficulty": 5,
-                "yield": "High",
-                "tags": ["tag1"]
-              },
-              { "id": "fc12",
+            {
+              "id": "fc2",
+              "front": "What distinguishes systolic from diastolic heart failure?",
+              "back": "Systolic failure involves decreased contractility and reduced ejection fraction, while diastolic failure involves impaired relaxation with normal ejection fraction.",
+              "difficulty": 1,
+              "yield": "Low",
+              "tags": ["Basic Difference"]
+            },
+            {
+              "id": "fc3",
+              "front": "What are the cardinal symptoms of left-sided failure?",
+              "back": "Dyspnea, orthopnea, and pulmonary congestion.",
+              "difficulty": 2,
+              "yield": "Medium",
+              "tags": ["Symptoms"]
+            },
+            {
+              "id": "fc4",
+              "front": "What are the hallmark signs of right-sided failure?",
+              "back": "Peripheral edema, hepatomegaly, ascites, and jugular venous distension.",
+              "difficulty": 2,
+              "yield": "Medium",
+              "tags": ["Signs"]
+            },
+            {
+              "id": "fc5",
+              "front": "What are the body’s compensatory mechanisms in heart failure?",
+              "back": "Activation of the sympathetic nervous system and RAAS to maintain perfusion, which eventually worsen the condition.",
+              "difficulty": 4,
+              "yield": "High",
+              "tags": ["Mechanism"]
+            },
+            {
+              "id": "fc6",
+              "front": "What is ventricular remodeling?",
+              "back": "Structural changes in the myocardium due to chronic pressure or volume overload leading to dilation or hypertrophy.",
+              "difficulty": 2,
+              "yield": "Low",
+              "tags": ["Mechanism"]
+            },
+            {
+              "id": "fc7",
+              "front": "Which drugs prevent remodeling?",
+              "back": "ACE inhibitors, ARBs, beta-blockers, and aldosterone antagonists.",
+              "difficulty": 4,
+              "yield": "High",
+              "tags": ["Drugs"]
+            },
+            {
+              "id": "fc8",
+              "front": "Why do ACE inhibitors cause cough?",
+              "back": "bradykinin accumulation in the lungs.",
+              "difficulty": 6,
+              "yield": "low",
+              "tags": ["ADR"]
+            },
+            {
+              "id": "fc9",
+              "front": "When are ARBs preferred?",
+              "back": "They are preferred when patients cannot tolerate ACE inhibitors due to cough or angioedema.",
+              "difficulty": 4,
+              "yield": "High",
+              "tags": ["Contraindications"]
+            },
+            {
+              "id": "fc10",
+              "front": "What is the mechanism of digoxin?",
+              "back": "It inhibits the Na⁺/K⁺ ATPase pump, increasing intracellular calcium and contractility.",
+              "difficulty": 4,
+              "yield": "High",
+              "tags": ["Mechanism"]
+            },
+            {
+              "id": "fc11",
+              "front": "What precipitates digoxin toxicity?",
+              "back": "Hypokalemia",
+              "difficulty": 5,
+              "yield": "High",
+              "tags": ["tag1"]
+            },
+            {
+              "id": "fc12",
               "front": "How is severe digoxin toxicity treated??",
               "back": "With digoxin-specific antibody fragments (Digi-bind).",
               "difficulty": 7,
@@ -149,84 +151,105 @@
               "tags": ["Toxicity"]
             },
             {
-                "id": "fc13",
-                "front": "Which beta-blockers improve survival in heart failure?",
-                "back": "Answer",
-                "difficulty": 1,
-                "yield": "High",
-                "tags": ["tag1"]
+              "id": "fc13",
+              "front": "Which beta-blockers improve survival in heart failure?",
+              "back": "Answer",
+              "difficulty": 1,
+              "yield": "High",
+              "tags": ["tag1"]
             },
             {
-                "id": "fc14",
-                "front": "Which beta-blockers improve survival in heart failure?",
-                "back": "Bisoprolol, carvedilol, and metoprolol succinate.",
-                "difficulty": 5,
-                "yield": "High",
-                "tags": ["Drugs"]
+              "id": "fc14",
+              "front": "Which beta-blockers improve survival in heart failure?",
+              "back": "Bisoprolol, carvedilol, and metoprolol succinate.",
+              "difficulty": 5,
+              "yield": "High",
+              "tags": ["Drugs"]
             },
             {
-                "id": "fc15",
-                "front": "Do diuretics improve survival?",
-                "back": "Only symptomatic relief.",
-                "difficulty": 2,
-                "yield": "Low",
-                "tags": ["Action"]
-            },
-            { 
-                "id": "fc16",
-                "front": "What is the mechanism of ivabradine?",
-                "back": "It inhibits the funny current in the sinoatrial node, reducing heart rate.",
-                "difficulty": 3,
-                "yield": "Medium",
-                "tags": ["Mechanism"]
+              "id": "fc15",
+              "front": "Do diuretics improve survival?",
+              "back": "Only symptomatic relief.",
+              "difficulty": 2,
+              "yield": "Low",
+              "tags": ["Action"]
             },
             {
-                "id": "fc17",
-                "front": "What is preload?",
-                "back": "The volume of blood returning to the ventricles before contraction.",
-                "difficulty": 1,
-                "yield": "Low",
-                "tags": ["Basic Definition"]
+              "id": "fc16",
+              "front": "What is the mechanism of ivabradine?",
+              "back": "It inhibits the funny current in the sinoatrial node, reducing heart rate.",
+              "difficulty": 3,
+              "yield": "Medium",
+              "tags": ["Mechanism"]
             },
             {
-                "id": "fc18",
-                "front": "What is afterload?",
-                "back": "The resistance the heart must overcome to eject blood.",
-                "difficulty": 1,
-                "yield": "Low",
-                "tags": ["Basic Definition"]
+              "id": "fc17",
+              "front": "What is preload?",
+              "back": "The volume of blood returning to the ventricles before contraction.",
+              "difficulty": 1,
+              "yield": "Low",
+              "tags": ["Basic Definition"]
             },
             {
-                "id": "fc19",
-                "front": "How does levosimendan work?",
-                "back": "It increases the sensitivity of cardiac muscle to calcium, improving contractility.",
-                "difficulty": 5,
-                "yield": "Medium",
-                "tags": ["Mechanism"]
+              "id": "fc18",
+              "front": "What is afterload?",
+              "back": "The resistance the heart must overcome to eject blood.",
+              "difficulty": 1,
+              "yield": "Low",
+              "tags": ["Basic Definition"]
             },
             {
-                "id": "fc20",
-                "front": "Which new drug class benefits heart failure regardless of diabetes status?",
-                "back": "SGLT2 inhibitors such as dapagliflozin and empagliflozin.",
-                "difficulty": 8,
-                "yield": "High",
-                "tags": ["Drugs"]
+              "id": "fc19",
+              "front": "How does levosimendan work?",
+              "back": "It increases the sensitivity of cardiac muscle to calcium, improving contractility.",
+              "difficulty": 5,
+              "yield": "Medium",
+              "tags": ["Mechanism"]
+            },
+            {
+              "id": "fc20",
+              "front": "Which new drug class benefits heart failure regardless of diabetes status?",
+              "back": "SGLT2 inhibitors such as dapagliflozin and empagliflozin.",
+              "difficulty": 8,
+              "yield": "High",
+              "tags": ["Drugs"]
             }
-            ]
+          ],
+          "rootFlowchartNode": {
+            "title": "Heart Failure",
+            "description": "Pathophysiology",
+            "children": []
           }
-        ]
-      },
-      {
-        "id": "pathology",
-        "name": "Pathology",
-        "description": "Study of the causes and effects of disease or injury.",
-        "topics": []
-      },
-      {
-        "id": "microbiology",
-        "name": "Microbiology",
-        "description": "Study of microscopic organisms, such as bacteria, viruses, archaea, fungi and protozoa.",
-        "topics": []
-      }
-    ]
-  }
+        }
+      ]
+    },
+    {
+      "id": "pathology",
+      "name": "Pathology",
+      "category": "Para-clinical",
+      "description": "Study of the causes and effects of disease or injury.",
+      "topics": []
+    },
+    {
+      "id": "microbiology",
+      "name": "Microbiology",
+      "category": "Para-clinical",
+      "description": "Study of microscopic organisms, such as bacteria, viruses, archaea, fungi and protozoa.",
+      "topics": []
+    },
+    {
+      "id": "obgyn",
+      "name": "OBGYN",
+      "category": "Clinical",
+      "description": "Obstetrics and Gynaecology.",
+      "topics": []
+    },
+    {
+      "id": "medicine",
+      "name": "General Medicine",
+      "category": "Clinical",
+      "description": "Diagnosis and treatment of adult diseases.",
+      "topics": []
+    }
+  ]
+}

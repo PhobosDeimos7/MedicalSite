@@ -1,65 +1,137 @@
 @using MedicalSite.Features.Learning.Models
 
-<div class="flex flex-col items-center justify-center space-y-8 py-8 w-full">
-    @if(Cards != null && Cards.Any())
+<div class="max-w-2xl mx-auto">
+    @if (Cards == null || !Cards.Any())
     {
-        <!-- Progress -->
-        <div class="text-sm font-bold text-gray-500 uppercase tracking-wider">
-            Card @(CurrentIndex + 1) of @Cards.Count
-        </div>
-
-        <!-- 3D Card Container -->
-        <div class="group relative h-64 w-full max-w-lg cursor-pointer perspective" @onclick="FlipCard">
-            <div class="relative h-full w-full shadow-xl transition-all duration-500 preserve-3d @(IsFlipped ? "rotate-y-180" : "")">
-                <!-- Inside the Front Face div -->
-<div class="absolute top-4 right-4 flex gap-1">
-    @foreach(var tag in Cards[CurrentIndex].Tags)
-    {
-        <span class="text-[10px] bg-slate-100 text-slate-500 px-2 py-1 rounded-full uppercase tracking-wider">
-            @tag
-        </span>
-    }
-</div>
-                <!-- Front (Question) -->
-                <div class="absolute inset-0 flex items-center justify-center rounded-2xl bg-white p-8 border-2 border-[var(--app-border)] backface-hidden">
-                    <p class="text-2xl font-bold text-[var(--app-text)] text-center">@Cards[CurrentIndex].Front</p>
-                    <span class="absolute bottom-4 text-xs text-gray-400 uppercase">Tap to flip</span>
-                </div>
-
-                <!-- Back (Answer) -->
-                <div class="absolute inset-0 flex items-center justify-center rounded-2xl bg-blue-600 p-8 border-2 border-blue-600 backface-hidden rotate-y-180">
-                    <p class="text-xl font-medium text-white text-center">@Cards[CurrentIndex].Back</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Controls -->
-        <div class="flex gap-4">
-            <button class="px-6 py-2 rounded-full border border-gray-300 hover:bg-gray-100 disabled:opacity-50" 
-                    @onclick="Prev" disabled="@(CurrentIndex == 0)">Prev</button>
-            <button class="px-6 py-2 rounded-full bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50" 
-                    @onclick="Next" disabled="@(CurrentIndex == Cards.Count - 1)">Next</button>
+        <div class="text-center py-12 text-slate-400 italic">
+            No flashcards available for this topic.
         </div>
     }
     else
     {
-        <p class="text-gray-500">No flashcards available.</p>
+        <!-- PROGRESS BAR -->
+        <div class="mb-6 flex items-center justify-between text-sm font-medium text-slate-500 dark:text-slate-400">
+            <span>Card @(currentIndex + 1) of @Cards.Count</span>
+            <div class="w-32 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                <div class="h-full bg-blue-500 transition-all duration-300" 
+                     style="width: @(((currentIndex + 1) * 100) / Cards.Count)%">
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD FLIP AREA -->
+        <div class="perspective-1000 h-80 cursor-pointer group" @onclick="FlipCard">
+            <div class="relative w-full h-full transition-transform duration-500 transform-style-3d @(isFlipped ? "rotate-y-180" : "")">
+                
+                <!-- FRONT (QUESTION) -->
+                <!-- ALWAYS White Bg, Black Text -->
+                <div class="absolute w-full h-full backface-hidden 
+                            rounded-2xl shadow-xl flex flex-col items-center justify-center p-8 text-center border-2
+                            bg-white border-slate-100 text-slate-900">
+                    
+                    <span class="absolute top-4 right-4 text-xs font-bold uppercase tracking-wider text-slate-400">
+                        Question
+                    </span>
+                    
+                    <h3 class="text-2xl font-bold leading-relaxed">
+                        @CurrentCard.Front
+                    </h3>
+
+                    <!-- TAGS -->
+                    @if (CurrentCard.Tags.Any())
+                    {
+                        <div class="absolute bottom-6 flex gap-2">
+                            @foreach (var tag in CurrentCard.Tags)
+                            {
+                                <span class="px-2 py-1 text-xs font-semibold rounded-md 
+                                             bg-slate-100 text-slate-600">
+                                    #@tag
+                                </span>
+                            }
+                        </div>
+                    }
+                </div>
+
+                <!-- BACK (ANSWER) -->
+                <!-- ALWAYS Blue-50 Bg, Black Text -->
+                <div class="absolute w-full h-full backface-hidden rotate-y-180 
+                            rounded-2xl shadow-xl flex flex-col items-center justify-center p-8 text-center border-2
+                            bg-blue-50 border-blue-100 text-slate-900">
+                    
+                    <span class="absolute top-4 right-4 text-xs font-bold uppercase tracking-wider text-blue-400">
+                        Answer
+                    </span>
+                    
+                    <p class="text-xl font-medium leading-relaxed">
+                        @CurrentCard.Back
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTROLS -->
+        <div class="mt-8 flex justify-center gap-4">
+            <!-- Prev Button (Adaptive Background for button container) -->
+            <button @onclick="PrevCard" disabled="@(currentIndex == 0)"
+                    class="p-3 rounded-full border shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed
+                           bg-white border-slate-200 text-slate-600 hover:bg-slate-50">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+            </button>
+
+            <!-- Flip Button -->
+            <button @onclick="FlipCard" 
+                    class="px-8 py-3 rounded-full font-bold shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5
+                           bg-blue-600 text-white hover:bg-blue-700">
+                @(isFlipped ? "Show Question" : "Show Answer")
+            </button>
+
+            <!-- Next Button -->
+            <button @onclick="NextCard" disabled="@(currentIndex == Cards.Count - 1)"
+                    class="p-3 rounded-full border shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed
+                           bg-white border-slate-200 text-slate-600 hover:bg-slate-50">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+            </button>
+        </div>
     }
 </div>
 
 <style>
-    .perspective { perspective: 1000px; }
-    .preserve-3d { transform-style: preserve-3d; }
+    .perspective-1000 { perspective: 1000px; }
+    .transform-style-3d { transform-style: preserve-3d; }
     .backface-hidden { backface-visibility: hidden; }
     .rotate-y-180 { transform: rotateY(180deg); }
 </style>
 
 @code {
     [Parameter] public List<Flashcard> Cards { get; set; } = new();
-    private int CurrentIndex = 0;
-    private bool IsFlipped = false;
 
-    private void FlipCard() => IsFlipped = !IsFlipped;
-    private void Next() { if (CurrentIndex < Cards.Count - 1) { IsFlipped = false; CurrentIndex++; } }
-    private void Prev() { if (CurrentIndex > 0) { IsFlipped = false; CurrentIndex--; } }
+    private int currentIndex = 0;
+    private bool isFlipped = false;
+    private Flashcard CurrentCard => Cards[currentIndex];
+
+    protected override void OnParametersSet()
+    {
+        currentIndex = 0;
+        isFlipped = false;
+    }
+
+    private void FlipCard() => isFlipped = !isFlipped;
+
+    private void NextCard()
+    {
+        if (currentIndex < Cards.Count - 1)
+        {
+            isFlipped = false;
+            currentIndex++;
+        }
+    }
+
+    private void PrevCard()
+    {
+        if (currentIndex > 0)
+        {
+            isFlipped = false;
+            currentIndex--;
+        }
+    }
 }
