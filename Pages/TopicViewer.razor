@@ -43,8 +43,9 @@
                         <h2 class="text-xl font-bold text-[var(--app-text)] mb-4 flex items-center gap-2">
                             <span class="text-blue-600">📖</span> High-Yield Summary
                         </h2>
-                        <p class="text-lg leading-relaxed text-slate-600 dark:text-slate-300">
-                            @CurrentTopic.Summary
+                        <!-- ADDED: whitespace-pre-line allows \n to create new lines -->
+                        <p class="text-lg leading-relaxed text-slate-600 dark:text-slate-300 whitespace-pre-line">
+                            @GetSummaryText()
                         </p>
                     </section>
                     
@@ -59,7 +60,8 @@
                                 {
                                     <li class="flex items-start gap-3 text-amber-900 dark:text-amber-100/90">
                                         <svg class="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
-                                        <span>@pearl</span>
+                                        <!-- ADDED: whitespace-pre-line here too -->
+                                        <span class="whitespace-pre-line">@pearl</span>
                                     </li>
                                 }
                             </ul>
@@ -69,7 +71,8 @@
                             <h3 class="text-lg font-bold text-red-800 dark:text-red-400 mb-4 flex items-center gap-2">
                                 <span>🏥</span> Clinical Relevance
                             </h3>
-                            <p class="text-red-900 dark:text-red-100/90 leading-relaxed text-sm">
+                            <!-- ADDED: whitespace-pre-line here too -->
+                            <p class="text-red-900 dark:text-red-100/90 leading-relaxed text-sm whitespace-pre-line">
                                 @CurrentTopic.ClinicalRelevance
                             </p>
                         </section>
@@ -108,11 +111,29 @@
         }
     }
 
+    // Helper to handle the transition from your old Data structure to the new one
+    private string GetSummaryText()
+    {
+        if (CurrentTopic == null) return "";
+
+        // If you filled out the new "Summary" field, use it.
+        if (!string.IsNullOrWhiteSpace(CurrentTopic.Summary))
+            return CurrentTopic.Summary;
+
+        // If Summary is empty, but you have the old "Overview" object/string
+        if (CurrentTopic.Overview != null)
+        {
+            // Even if it's an object, this tries to turn it into a string so something shows up
+            return CurrentTopic.Overview.ToString() ?? "";
+        }
+
+        return "No summary available.";
+    }
+
     private void Navigate(string view) 
     {
         if (Nav.Uri.Contains("/flowcharts/") && view == "flowcharts") return;
         
-        // FIX HERE: Removed leading slash
         Nav.NavigateTo($"learning/{SubjectId}/{TopicId}/{view}");
     }
 

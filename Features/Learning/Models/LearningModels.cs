@@ -18,13 +18,15 @@ public class Topic
     public string Id { get; set; } = "";
     public string Title { get; set; } = "";
     
-    // Content Fields
+    // CRITICAL FIX: Use 'object' here. 
+    // This allows it to load the JSON whether "overview" is a String OR an Object.
+    public object Overview { get; set; } = new();
+    
     public string Summary { get; set; } = "";
     public string ClinicalRelevance { get; set; } = "";
     public List<string> ExamPearls { get; set; } = new();
     public List<Definition> Definitions { get; set; } = new();
     
-    // Interactive Content
     public List<Flashcard> Flashcards { get; set; } = new();
     public FlowchartNode RootFlowchartNode { get; set; } = new();
 }
@@ -40,8 +42,6 @@ public class Flashcard
     public string Id { get; set; } = Guid.NewGuid().ToString();
     public string Front { get; set; } = "";
     public string Back { get; set; } = "";
-    
-    // Metadata
     public int Difficulty { get; set; } = 1;
     public string Yield { get; set; } = "Medium";
     public List<string> Tags { get; set; } = new();
