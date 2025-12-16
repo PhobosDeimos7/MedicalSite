@@ -1,0 +1,81 @@
+@page "/builder"
+@using MedicalSite.Features.Learning.Models
+@using MedicalSite.Features.Learning.Components
+@using System.Text.Json
+
+<div class="max-w-7xl mx-auto pb-20 px-4">
+    <!-- Header -->
+    <div class="mb-8 border-b border-slate-200 dark:border-slate-700 pb-4 flex justify-between items-end">
+        <div>
+            <h1 class="text-3xl font-bold text-slate-900 dark:text-white">Flowchart Builder</h1>
+            <p class="text-slate-500">Visually build your tree, then copy the JSON.</p>
+        </div>
+        <button @onclick="CopyToClipboard" class="px-6 py-2 bg-indigo-600 text-white rounded-lg font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-500/30">
+            @copyText
+        </button>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 h-screen">
+        
+        <!-- LEFT: The Visual Editor -->
+        <div class="bg-slate-50 dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 overflow-y-auto custom-scrollbar h-[80vh]">
+            <h2 class="text-sm font-bold uppercase text-slate-400 mb-4 tracking-wider">Visual Editor</h2>
+            
+            <!-- We pass the Root Node here. No OnRemove because you can't delete the root. -->
+            <FlowchartEditorNode Node="RootNode" />
+        </div>
+
+        <!-- RIGHT: The Live JSON Output -->
+        <div class="flex flex-col h-[80vh]">
+            <h2 class="text-sm font-bold uppercase text-slate-400 mb-4 tracking-wider">Generated JSON</h2>
+            <div class="flex-grow relative">
+                <textarea class="w-full h-full p-4 bg-slate-900 text-green-400 font-mono text-sm rounded-2xl focus:outline-none resize-none" 
+                          readonly>@GetJson()</textarea>
+                
+                <!-- Quick Copy Button overlay -->
+                <button @onclick="CopyToClipboard" 
+                        class="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-lg text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
+                        <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
+                    </svg>
+                </button>
+            </div>
+            <p class="text-xs text-slate-500 mt-2">
+                * Copy this JSON and paste it into the "rootFlowchartNode" field in your Master JSON file.
+            </p>
+        </div>
+    </div>
+</div>
+
+@code {
+    // Initial Root Node
+    private FlowchartNode RootNode = new() 
+    { 
+        Title = "Start Here", 
+        Description = "Root Node",
+        Type = "Start"
+    };
+
+    private string copyText = "Copy JSON";
+
+    private string GetJson()
+    {
+        var options = new JsonSerializerOptions 
+        { 
+            WriteIndented = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase 
+        };
+        return JsonSerializer.Serialize(RootNode, options);
+    }
+
+    private async Task CopyToClipboard()
+    {
+        // In a real app we'd use JSInterop to copy to clipboard. 
+        // For now, we'll just change the button text to give feedback.
+        // You can select all and copy manually from the textarea.
+        copyText = "Copied! (Manually)";
+        await Task.Delay(2000);
+        copyText = "Copy JSON";
+    }
+}
