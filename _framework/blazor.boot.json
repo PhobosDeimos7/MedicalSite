@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "MedicalSite",
   "resources": {
-    "hash": "sha256-cOhOfYTrifCfa9VCgrxT4YxooYYZSXefdx7Q5Aaz1Xk=",
+    "hash": "sha256-qZ+qZjcGNbzWsR7xWV0YeItsHAqqgcnYo8WFVAMMdeU=",
     "fingerprinting": {
       "Microsoft.AspNetCore.Components.gk7dkenbhh.wasm": "Microsoft.AspNetCore.Components.wasm",
       "Microsoft.AspNetCore.Components.Web.ca5xgge1r2.wasm": "Microsoft.AspNetCore.Components.Web.wasm",
@@ -24,7 +24,7 @@
       "System.Console.3q0ifsv076.wasm": "System.Console.wasm",
       "System.Diagnostics.DiagnosticSource.j8ly62mron.wasm": "System.Diagnostics.DiagnosticSource.wasm",
       "System.IO.Pipelines.hqvxmp1tnr.wasm": "System.IO.Pipelines.wasm",
-      "System.Linq.rb8tmb3rb9.wasm": "System.Linq.wasm",
+      "System.Linq.vcp6jppp3v.wasm": "System.Linq.wasm",
       "System.Memory.0or0eqaudk.wasm": "System.Memory.wasm",
       "System.Net.Http.Json.0db1rsbrbh.wasm": "System.Net.Http.Json.wasm",
       "System.Net.Http.jihrmze3xo.wasm": "System.Net.Http.wasm",
@@ -35,8 +35,8 @@
       "System.Text.Encodings.Web.dvi1t3okep.wasm": "System.Text.Encodings.Web.wasm",
       "System.Text.Json.m4wdlob2qg.wasm": "System.Text.Json.wasm",
       "System.Text.RegularExpressions.k8ibga7wut.wasm": "System.Text.RegularExpressions.wasm",
-      "System.Private.CoreLib.7fs8i0e4on.wasm": "System.Private.CoreLib.wasm",
-      "MedicalSite.g6e7f7z4zw.wasm": "MedicalSite.wasm",
+      "System.Private.CoreLib.aclww1pb0q.wasm": "System.Private.CoreLib.wasm",
+      "MedicalSite.1mnxhnwnrj.wasm": "MedicalSite.wasm",
       "dotnet.js": "dotnet.js",
       "dotnet.native.noby4tlk4d.js": "dotnet.native.js",
       "dotnet.native.qe75a9vfqn.wasm": "dotnet.native.wasm",
@@ -61,7 +61,7 @@
     },
     "coreAssembly": {
       "System.Runtime.InteropServices.JavaScript.u9tzo6t7zm.wasm": "sha256-8v7jVijrzRlaTmvdds4+ZNyPL5DYfnYnzFYT2HtkqwM=",
-      "System.Private.CoreLib.7fs8i0e4on.wasm": "sha256-43MD2fzPuK83Q5BJdb1kMbaC4+fpXZANi6RHGj+34vM="
+      "System.Private.CoreLib.aclww1pb0q.wasm": "sha256-CkjjPxfF+TINY9fTewBAK68FuCgCCsPbFcwQmYXmnH8="
     },
     "assembly": {
       "Microsoft.AspNetCore.Components.gk7dkenbhh.wasm": "sha256-cNx0dJeYm73EWdWenZzNu1l7L7rceKu7sXiq0Q8MwqI=",
@@ -85,7 +85,7 @@
       "System.Console.3q0ifsv076.wasm": "sha256-KyPpuVhrfuJq1ECyP5MqnPga73t+XfyPIVputIdTidw=",
       "System.Diagnostics.DiagnosticSource.j8ly62mron.wasm": "sha256-/TGI24Jx79K7wdRMcd2B8hLSAt55XyrqqilZYuSGURc=",
       "System.IO.Pipelines.hqvxmp1tnr.wasm": "sha256-F7eq3vfkNdyf7BI0RJMCuDGtdhNgu4qn1GGWK5FvVz0=",
-      "System.Linq.rb8tmb3rb9.wasm": "sha256-mV6lfKEAMZOeh/X0hDhKQb5kqO2VCt5WMXj8xwmX2V4=",
+      "System.Linq.vcp6jppp3v.wasm": "sha256-IXOOJLFZziCOZjSckYHu2EbFJyF4Usg65oSnD4ScQcE=",
       "System.Memory.0or0eqaudk.wasm": "sha256-ECLbc1+da5sOnq5gxaEbwUJwxnx1De5iRFuO+fPJUJ0=",
       "System.Net.Http.Json.0db1rsbrbh.wasm": "sha256-PLU7yJY/jwStQKKHScMw7U+TUJoL2DP+5E6YodgPMoQ=",
       "System.Net.Http.jihrmze3xo.wasm": "sha256-a3MqgjyHRJEMIatIH7e0u96woSIcUZHJgK5bt743lKs=",
@@ -95,7 +95,7 @@
       "System.Text.Encodings.Web.dvi1t3okep.wasm": "sha256-N0H/XiI7CqSVWRBwOAksJI9mQ1UaYSw6kuREMzV/aw8=",
       "System.Text.Json.m4wdlob2qg.wasm": "sha256-5qjfGZGHbvBXYE9OBLQ32FHz6vObx9o8C5SsZm1rOto=",
       "System.Text.RegularExpressions.k8ibga7wut.wasm": "sha256-7OYvLuFLvwbax++2u+uoDmoaX8o/Q8wcYJC92eP1YjA=",
-      "MedicalSite.g6e7f7z4zw.wasm": "sha256-iF6rahGfGqN3FbBUX6KmT2Ml6fB4hzPagkmy5UovsJs="
+      "MedicalSite.1mnxhnwnrj.wasm": "sha256-N90OT1W1RHiS0EcbfamHmdLY+NGGYqO3ELtNmvCmt7w="
     }
   },
   "cacheBootResources": true,
