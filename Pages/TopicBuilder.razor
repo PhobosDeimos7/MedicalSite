@@ -1,0 +1,199 @@
+@page "/topic-builder"
+@using MedicalSite.Features.Learning.Models
+@using System.Text.Json
+
+<div class="max-w-7xl mx-auto pb-20 px-4">
+    <!-- Header -->
+    <div class="mb-8 border-b border-slate-200 dark:border-slate-700 pb-4 flex justify-between items-end">
+        <div>
+            <h1 class="text-3xl font-bold text-slate-900 dark:text-white">Topic Builder</h1>
+            <p class="text-slate-500">Create a topic, add notes & cards, then copy the JSON.</p>
+        </div>
+        <button @onclick="CopyToClipboard" class="px-6 py-2 bg-indigo-600 text-white rounded-lg font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-500/30">
+            @copyText
+        </button>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[85vh]">
+        
+        <!-- LEFT: EDITOR (Scrollable) -->
+        <div class="bg-slate-50 dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 overflow-y-auto custom-scrollbar">
+            
+            <!-- 1. Topic Metadata -->
+            <section class="mb-8 p-4 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700">
+                <h2 class="text-xs font-bold uppercase text-indigo-500 mb-4 tracking-wider">1. Topic Details</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Topic ID (e.g. "CCF")</label>
+                        <input @bind="Topic.Id" @bind:event="oninput" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg focus:border-indigo-500 outline-none transition-colors" />
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Title (e.g. "Heart Failure")</label>
+                        <input @bind="Topic.Title" @bind:event="oninput" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg font-bold focus:border-indigo-500 outline-none transition-colors" />
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Content Sections -->
+            <section class="mb-8">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xs font-bold uppercase text-indigo-500 tracking-wider">2. Content Sections</h2>
+                    <button @onclick="AddSection" class="text-xs font-bold px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 transition-colors">+ Add Section</button>
+                </div>
+                
+                <div class="space-y-4">
+                    @foreach (var section in Topic.Sections)
+                    {
+                        <!-- @key IS CRITICAL HERE: It ensures Blazor knows which input belongs to which section -->
+                        <div @key="section" class="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 relative group transition-all">
+                            
+                            <!-- Remove Button -->
+                            <button @onclick="() => Topic.Sections.Remove(section)" class="absolute top-2 right-2 p-1 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors z-10">
+                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                            </button>
+                            
+                            <!-- TITLE INPUT (Fixed Styling & Binding) -->
+                            <div class="mb-3 pr-8">
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Section Title</label>
+                                <input @bind-value="section.Title" 
+                                       @bind-value:event="oninput"
+                                       placeholder="e.g. Pathophysiology" 
+                                       class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg font-bold text-slate-800 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none" />
+                            </div>
+                            
+                            <!-- CONTENT TEXTAREA -->
+                            <div class="mb-2">
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Content / Notes</label>
+                                <textarea @bind-value="section.Content" 
+                                          @bind-value:event="oninput"
+                                          rows="5" 
+                                          placeholder="Type your notes here... (Markdown style)" 
+                                          class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                            </div>
+                            
+                            <!-- High Yield Checkbox -->
+                            <div class="flex items-center gap-2 mt-2">
+                                <input type="checkbox" @bind="section.IsExamPearl" id="@($"chk-{section.GetHashCode()}")" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500 border-gray-300" />
+                                <label for="@($"chk-{section.GetHashCode()}")" class="text-xs font-bold text-amber-600 cursor-pointer select-none">Mark as High Yield / Exam Pearl</label>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </section>
+
+            <!-- 3. Flashcards -->
+            <section class="mb-8">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xs font-bold uppercase text-indigo-500 tracking-wider">3. Flashcards</h2>
+                    <button @onclick="AddFlashcard" class="text-xs font-bold px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors">+ Add Card</button>
+                </div>
+                
+                <div class="space-y-3">
+                    @foreach (var card in Topic.Flashcards)
+                    {
+                        <div @key="card" class="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 relative">
+                             <button @onclick="() => Topic.Flashcards.Remove(card)" class="absolute top-2 right-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-full p-1 transition-colors">
+                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                            </button>
+
+                            <div class="grid grid-cols-1 gap-3">
+                                <div>
+                                    <input @bind-value="card.Front" @bind-value:event="oninput" placeholder="Question / Front" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg font-medium focus:ring-2 focus:ring-blue-500 outline-none" />
+                                </div>
+                                <div>
+                                    <input @bind-value="card.Back" @bind-value:event="oninput" placeholder="Answer / Back" class="w-full px-3 py-2 bg-blue-50 dark:bg-slate-900 border border-blue-100 dark:border-slate-600 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none" />
+                                </div>
+                                <div>
+                                    <input @bind-value="card.TagInput" @bind-value:event="oninput" placeholder="Tags (comma separated)..." class="w-full px-3 py-1 bg-transparent border-b border-slate-100 dark:border-slate-700 text-xs text-slate-500 focus:border-blue-400 outline-none" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </section>
+        </div>
+
+        <!-- RIGHT: JSON OUTPUT -->
+        <div class="flex flex-col h-full">
+            <h2 class="text-sm font-bold uppercase text-slate-400 mb-4 tracking-wider">Generated JSON</h2>
+            <div class="flex-grow relative">
+                <textarea class="w-full h-full p-4 bg-slate-900 text-green-400 font-mono text-sm rounded-2xl focus:outline-none resize-none" 
+                          readonly>@GetJson()</textarea>
+                
+                 <!-- Quick Copy Button overlay -->
+                <button @onclick="CopyToClipboard" 
+                        class="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-lg text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
+                        <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
+                    </svg>
+                </button>
+            </div>
+            <p class="text-xs text-slate-500 mt-2">
+                * Copy this JSON and paste it into the "topics" list of a subject in your Master JSON file.
+            </p>
+        </div>
+    </div>
+</div>
+
+@code {
+    private TopicBuilderModel Topic = new();
+    private string copyText = "Copy JSON";
+
+    private void AddSection()
+    {
+        Topic.Sections.Add(new ContentSection());
+    }
+
+    private void AddFlashcard()
+    {
+        Topic.Flashcards.Add(new FlashcardBuilderModel());
+    }
+
+    private string GetJson()
+    {
+        var actualTopic = new Topic
+        {
+            Id = Topic.Id,
+            Title = Topic.Title,
+            Sections = Topic.Sections,
+            Flashcards = Topic.Flashcards.Select(f => new Flashcard 
+            {
+                Id = Guid.NewGuid().ToString(),
+                Front = f.Front,
+                Back = f.Back,
+                Tags = f.TagInput.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList()
+            }).ToList(),
+            RootFlowchartNode = new FlowchartNode { Title = "Start", Description = "Flowchart Root" }
+        };
+
+        var options = new JsonSerializerOptions 
+        { 
+            WriteIndented = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase 
+        };
+        return JsonSerializer.Serialize(actualTopic, options);
+    }
+
+    private async Task CopyToClipboard()
+    {
+        copyText = "Copied! (Manually)";
+        await Task.Delay(2000);
+        copyText = "Copy JSON";
+    }
+
+    public class TopicBuilderModel
+    {
+        public string Id { get; set; } = "";
+        public string Title { get; set; } = "";
+        public List<ContentSection> Sections { get; set; } = new();
+        public List<FlashcardBuilderModel> Flashcards { get; set; } = new();
+    }
+
+    public class FlashcardBuilderModel
+    {
+        public string Front { get; set; } = "";
+        public string Back { get; set; } = "";
+        public string TagInput { get; set; } = "";
+    }
+}
